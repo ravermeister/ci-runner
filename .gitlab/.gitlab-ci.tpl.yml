@@ -1,5 +1,6 @@
 # amd64 env template
 .amd64:
+  extends: .dind
   rules:
     - if: $CI_SERVER_HOST == "gitlab.com"
       when: always
@@ -10,6 +11,7 @@
 
 # amd64 env template
 .arm64:
+  extends: .dind
   rules:
     - if: $CI_SERVER_HOST == "gitlab.rimkus.it"
       when: always

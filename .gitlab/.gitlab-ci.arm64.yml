@@ -2,7 +2,6 @@ create_arm64:
   stage: create
   extends:
     - .arm64
-    - .dind
   script:
     - echo "build Forgejo Runner Version $FORGEJO_RUNNER_VERSION"
     - >
@@ -20,7 +19,6 @@ release_arm64:
   stage: release
   extends:
     - .arm64
-    - .dind
   script:
     - echo "creating tags"
     - docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}:latest" "${CI_REGISTRY_IMAGE}:arm64"

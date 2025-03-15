@@ -16,7 +16,7 @@ create_amd64:
         .
     - docker push "${CI_REGISTRY_IMAGE}:adm64"
 
-release_arm64:
+release_amd64:
   stage: release
   extends:
     - .amd64

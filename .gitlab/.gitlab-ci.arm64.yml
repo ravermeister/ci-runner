@@ -1,8 +1,8 @@
 create_arm64:
   stage: create
   extends:
-    - .dind
     - .arm64
+    - .dind
   script:
     - echo "build Forgejo Runner Version $FORGEJO_RUNNER_VERSION"
     - >
@@ -19,8 +19,8 @@ create_arm64:
 release_arm64:
   stage: release
   extends:
-    - .dind
     - .arm64
+    - .dind
   needs:
     - create_arm64
   script:

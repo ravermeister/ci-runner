@@ -2,9 +2,6 @@ create_amd64:
   stage: create
   extends:
     - .amd64
-  variables:
-    BUILDX_ARCHITECTURE: linux-amd64
-    DOCKER_CREDENTIAL_HELPER_ARCHITECTURE: linux-amd64
   script:
     - echo "build Forgejo Runner Version $FORGEJO_RUNNER_VERSION"
     - >
@@ -22,9 +19,6 @@ release_amd64:
   stage: release
   extends:
     - .amd64
-  variables:
-    BUILDX_ARCHITECTURE: linux-amd64
-    DOCKER_CREDENTIAL_HELPER_ARCHITECTURE: linux-amd64
   needs:
     - create_amd64
   script:

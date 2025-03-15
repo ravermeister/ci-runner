@@ -1,0 +1,28 @@
+create_amd64:
+  stage: create
+  extends:
+    - .dind
+    - .amd64
+  script:
+    - echo "build Forgejo Runner Version $FORGEJO_RUNNER_VERSION"
+    - >
+      docker buildx build --no-cache --force-rm --compress --load \
+        --platform "linux/arm64" \
+        --build-arg FORGEJO_VERSION=$FORGEJO_RUNNER_VERSION \
+        --build-arg GO_VERSION=$GO_VERSION \
+        --target forge-runner-arm64 \
+        -t "${IMAGE_NAME}" \
+        -t "${CI_REGISTRY_IMAGE}:amd64" \
+        .
+    - docker push "${CI_REGISTRY_IMAGE}:adm64"
+
+
+release_arm64:
+  stage: release
+  extends:
+    - .dind
+    - .arm64
+  script:
+    - echo "creating tags"
+    - docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}:latest" "${CI_REGISTRY_IMAGE}:amd64"
+    - docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}:${FORGEJO_RUNNER_VERSION}" "${CI_REGISTRY_IMAGE}:amd64"

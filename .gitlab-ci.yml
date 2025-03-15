@@ -1,0 +1,20 @@
+variables:
+  FORGEJO_RUNNER_VERSION: 6.2.2
+  GO_VERSION: 1.24.1
+  IMAGE_NAME: forgejo-runner
+  GIT_SUBMODULE_STRATEGY: recursive
+  DOCKER_DRIVER: overlay2
+  BUILDX_VERSION: v${DOCKER_BUILDX_VERSION}
+  DOCKER_CREDENTIAL_HELPER_VERSION: v${DOCKER_CRED_HELPER_VERSION}
+  CI_REGISTRY_IMAGE: ravermeister/${IMAGE_NAME}
+  GPG_USER: movim-ci
+  GPG_MAIL: info@rimkus.it
+
+include:
+  - local: .gitlab/.gitlab-ci.tpl.yml
+  - local: .gitlab/.gitlab-ci.arm64.yml
+  - local: .gitlab/.gitlab-ci.amd64.yml
+
+stages:
+  - create
+  - release

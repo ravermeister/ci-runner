@@ -4,6 +4,7 @@ update_system() {
 	apt -yq update
   apt -yq dist-upgrade
 }
+
 install_docker_cli() {
 		# Add Docker's official GPG key:
     apt -yq update
@@ -24,11 +25,16 @@ install_node() {
 	apt -yq install nodejs
 }
 
+install_tools() {
+	tar -C /usr/local -xzf /tmp/tools/go.tar.gz
+	rm -rf /tmp/tools
+}
 
 init_container() {
 	update_system
 	install_docker_cli
 	install_node
+	install_tools
 }
 
 start_container() {

@@ -1,7 +1,7 @@
 # amd64 env template
 .amd64:
   rules:
-    - if: "${CI_SERVER_HOST}" == "gitlab.com"
+    - if: "${CI_SERVER_HOST}" == gitlab.com
       when: always
     - when: never
   variables:
@@ -11,7 +11,7 @@
 # amd64 env template
 .arm64:
   rules:
-    - if: "${CI_SERVER_HOST}" == "gitlab.rimkus.it"
+    - if: "${CI_SERVER_HOST}" == gitlab.rimkus.it
       when: always
     - when: never
   tags:

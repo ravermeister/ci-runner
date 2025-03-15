@@ -1,0 +1,2 @@
+From debian:stable-slim
+

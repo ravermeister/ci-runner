@@ -1,8 +1,9 @@
 # amd64 env template
 .amd64:
   rules:
-    - if: $CI_SERVER_HOST == "gitlab.com"
-      when: always
+    - when: never
+    - if: $CI_SERVER_HOST != "gitlab.com"
+      when: never
   variables:
     BUILDX_ARCHITECTURE: linux-amd64
     DOCKER_CREDENTIAL_HELPER_ARCHITECTURE: linux-amd64
@@ -10,8 +11,8 @@
 # amd64 env template
 .arm64:
   rules:
-    - if: $CI_SERVER_HOST == "gitlab.rimkus.it"
-      when: always
+    - if: $CI_SERVER_HOST != "gitlab.rimkus.it"
+      when: never
   tags:
     - arm64
     - docker

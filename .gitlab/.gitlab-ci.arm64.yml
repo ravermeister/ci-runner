@@ -2,6 +2,9 @@ create_arm64:
   stage: create
   extends:
     - .arm64
+  variables:
+    BUILDX_ARCHITECTURE: linux-arm64
+    DOCKER_CREDENTIAL_HELPER_ARCHITECTURE: linux-arm64
   script:
     - echo "build Forgejo Runner Version $FORGEJO_RUNNER_VERSION"
     - >
@@ -19,6 +22,9 @@ release_arm64:
   stage: release
   extends:
     - .arm64
+  variables:
+    BUILDX_ARCHITECTURE: linux-arm64
+    DOCKER_CREDENTIAL_HELPER_ARCHITECTURE: linux-arm64
   needs:
     - create_arm64
   script:

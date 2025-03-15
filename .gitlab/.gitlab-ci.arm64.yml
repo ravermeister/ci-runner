@@ -21,8 +21,6 @@ release_arm64:
   extends:
     - .arm64
     - .dind
-  needs:
-    - create_arm64
   script:
     - echo "creating tags"
     - docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}:latest" "${CI_REGISTRY_IMAGE}:arm64"

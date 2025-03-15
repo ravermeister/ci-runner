@@ -7,8 +7,8 @@ variables:
   BUILDX_VERSION: v${DOCKER_BUILDX_VERSION}
   DOCKER_CREDENTIAL_HELPER_VERSION: v${DOCKER_CRED_HELPER_VERSION}
   CI_REGISTRY_IMAGE: ravermeister/${IMAGE_NAME}
-  GPG_USER: movim-ci
-  GPG_MAIL: info@rimkus.it
+  GPG_USER: forgejo
+  GPG_MAIL: forgejo@example.net
   DOCKER_AUTH_CONFIG: '
     {
       "credsStore": "pass"

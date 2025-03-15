@@ -14,6 +14,9 @@
     - if: "${CI_SERVER_HOST}" == "gitlab.rimkus.it"
       when: always
     - when: never
+  tags:
+    - arm64
+    - docker
   variables:
     BUILDX_ARCHITECTURE: linux-arm64
     DOCKER_CREDENTIAL_HELPER_ARCHITECTURE: linux-arm64

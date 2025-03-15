@@ -8,6 +8,7 @@
     - if: $CI_SERVER_HOST == "gitlab.com"
       when: always
     - when: never
+  tags: []
 
 # amd64 env template
 .arm64:

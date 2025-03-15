@@ -9,6 +9,11 @@ variables:
   CI_REGISTRY_IMAGE: ravermeister/${IMAGE_NAME}
   GPG_USER: movim-ci
   GPG_MAIL: info@rimkus.it
+  DOCKER_AUTH_CONFIG: '
+    {
+      "credsStore": "pass"
+    }
+  '
 
 include:
   - local: .gitlab/.gitlab-ci.tpl.yml

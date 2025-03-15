@@ -34,3 +34,23 @@ init_container() {
 start_container() {
 	/usr/local/share/forgejo/forgejo-runner daemon
 }
+
+usage() {
+	BASE_NAME="$(basename "$0")"
+	printf "%s\t%s\t%s\n" "${BASE_NAME}" "setup" "installs all necessary packages"
+	printf "%s\t%s\t%s\n" "${BASE_NAME}" "run" "starts the forgejo-runner"
+}
+
+###########
+
+case $1 in
+	setup)
+		init_container
+	;;
+	run)
+		start_container
+	;;
+	*)
+		usage
+	;;
+esac

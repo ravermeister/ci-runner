@@ -1,17 +1,20 @@
 # amd64 env template
 .amd64:
   extends: .dind
+  variables:
+    BUILDX_ARCHITECTURE: linux-amd64
+    DOCKER_CREDENTIAL_HELPER_ARCHITECTURE: linux-amd64
   rules:
     - if: $CI_SERVER_HOST == "gitlab.com"
       when: always
     - when: never
-  variables:
-    BUILDX_ARCHITECTURE: linux-amd64
-    DOCKER_CREDENTIAL_HELPER_ARCHITECTURE: linux-amd64
 
 # amd64 env template
 .arm64:
   extends: .dind
+  variables:
+    BUILDX_ARCHITECTURE: linux-arm64
+    DOCKER_CREDENTIAL_HELPER_ARCHITECTURE: linux-arm64
   rules:
     - if: $CI_SERVER_HOST == "gitlab.rimkus.it"
       when: always
@@ -19,10 +22,6 @@
   tags:
     - arm64
     - docker
-  variables:
-    BUILDX_ARCHITECTURE: linux-arm64
-    DOCKER_CREDENTIAL_HELPER_ARCHITECTURE: linux-arm64
-
 
 # docker in docker template
 .dind:

@@ -14,14 +14,3 @@ create_arm64:
         -t "${CI_REGISTRY_IMAGE}:arm64" \
         .
     - docker push "${CI_REGISTRY_IMAGE}:arm64"
-
-release_arm64:
-  stage: release
-  extends:
-    - .arm64
-  needs:
-    - create_arm64
-  script:
-    - echo "creating tags"
-    - docker buildx imagetools create --append --tag "${CI_REGISTRY_IMAGE}:latest" "${CI_REGISTRY_IMAGE}:arm64"
-    - docker buildx imagetools create --append --tag "${CI_REGISTRY_IMAGE}:${FORGEJO_RUNNER_VERSION}" "${CI_REGISTRY_IMAGE}:arm64"

@@ -1,0 +1,15 @@
+services:
+  docker:
+    image: docker.io/docker:dind
+    hostname: docker
+    privileged: true
+    restart: unless-stopped
+    command: ['dockerd', '-H', 'tcp://0.0.0.0:2375', '--tls=false']
+  forgejo:
+    image: docker.io/ravermeister/forgejo-runner
+    hostname: forgejo
+    restart: unless-stopped
+    depends_on:
+      - docker
+    volumes:
+      - /etc/forgejo/runner.cfg:/etc/forgejo-runner

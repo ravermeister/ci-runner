@@ -22,7 +22,7 @@ wget -qO docker-compose.yml https://gitlab.rimkus.it/development/forgejo-runner/
 docker-compose pull
 docker-compose run -it --entrypoint forgejo-runner forgejo generate-config>config.yml
 touch runner.cfg
-docker-compose run -v runner.cfg:/root/.runner -it --entrypoint forgejo-runner forgejo generate-config>config.yml
+docker-compose run -v runner.cfg:/root/.runner -it --entrypoint forgejo-runner forgejo register>config.yml
 ```
 
 you can use the [docker-compose](https://gitlab.rimkus.it/development/forgejo-runner/-/blob/main/docker-compose.yml?ref_type=heads) as an example

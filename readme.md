@@ -20,9 +20,9 @@ before using this image you have to generate a `config.yml`
 ```bash
 wget -qO docker-compose.yml https://gitlab.rimkus.it/development/forgejo-runner/-/raw/main/docker-compose.yml?ref_type=heads
 docker-compose pull
-docker run --entrypoint "forgejo-runner generate-config" forgejo >config.yml
+docker-compose run -it --entrypoint forgejo-runner forgejo generate-config>config.yml
 touch runner.cfg
-docker run -v runner.cfg:.runner --entrypoint "forgejo-runner register"
+docker-compose run -v $(pwd)/runner.cfg:.runner -it --entrypoint forgejo-runner forgejo generate-config>config.yml
 ```
 
 you can use the [docker-compose](https://gitlab.rimkus.it/development/forgejo-runner/-/blob/main/docker-compose.yml?ref_type=heads)

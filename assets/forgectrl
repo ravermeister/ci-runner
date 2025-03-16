@@ -42,7 +42,7 @@ init_container() {
 }
 
 start_container() {
-	forgejo-runner -c /etc/forgejo-runner daemon
+	cd "$HOME" && forgejo-runner daemon
 }
 
 usage() {

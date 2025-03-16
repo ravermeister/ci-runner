@@ -8,9 +8,11 @@ clean_system() {
 	rm -rf /etc/update-motd.d /etc/motd /etc/motd.dynamic
 	ln -fs /dev/null /run/motd.dynamic
 	# Remove generated SSH Keys
-	rm /etc/ssh/ssh_host_ecdsa_key /etc/ssh/ssh_host_ecdsa_key.pub \
-	/etc/ssh/ssh_host_ed25519_key /etc/ssh/ssh_host_ed25519_key.pub \
-	/etc/ssh/ssh_host_rsa_key /etc/ssh/ssh_host_rsa_key.pub
+	if [ -d /etc/ssh ]; then
+		rm /etc/ssh/ssh_host_ecdsa_key /etc/ssh/ssh_host_ecdsa_key.pub \
+			/etc/ssh/ssh_host_ed25519_key /etc/ssh/ssh_host_ed25519_key.pub \
+			/etc/ssh/ssh_host_rsa_key /etc/ssh/ssh_host_rsa_key.pub
+	fi
 }
 
 update_system() {

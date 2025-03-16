@@ -56,6 +56,7 @@ init_container() {
 	install_docker_cli
 	install_node
 	install_tools
+	clean_system
 }
 
 start_container() {

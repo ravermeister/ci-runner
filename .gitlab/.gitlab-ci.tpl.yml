@@ -6,7 +6,7 @@
     DOCKER_CREDENTIAL_HELPER_ARCHITECTURE: linux-amd64
   tags: []
 
-# amd64 env template
+# arm64 env template
 .arm64:
   extends: .dind
   variables:

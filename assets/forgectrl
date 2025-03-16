@@ -32,6 +32,9 @@ install_tools() {
 }
 
 init_container() {
+	set -eux
+	export DEBIAN_FRONTEND=noninteractive
+
 	update_system
 	install_docker_cli
 	install_node

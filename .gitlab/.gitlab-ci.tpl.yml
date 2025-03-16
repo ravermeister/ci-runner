@@ -23,8 +23,6 @@
     - name: docker:dind
       command: ["--experimental"]
   before_script:
-    - echo "BUILDX >$BUILDX_VERSION<"
-    - echo "DOCKER_CRED >$DOCKER_CREDENTIAL_HELPER_VERSION<"
     - apk add --no-cache make bash curl libsecret pass gpg-agent openssh-client
     - .gitlab/docker-credential-init.sh "${GPG_USER}" "${GPG_MAIL}"
     - mkdir -p ~/.docker/cli-plugins

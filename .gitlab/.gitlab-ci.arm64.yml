@@ -9,7 +9,7 @@ create_arm64:
         --platform "linux/arm64" \
         --build-arg FORGEJO_VERSION=$FORGEJO_RUNNER_VERSION \
         --build-arg GO_VERSION=$GO_VERSION \
-        --target forge-runner-arm64 \
+        --target forgejo-runner-arm64 \
         -t "${IMAGE_NAME}" \
         -t "${CI_REGISTRY_IMAGE}:arm64" \
         .

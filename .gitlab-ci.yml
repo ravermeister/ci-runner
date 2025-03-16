@@ -10,11 +10,10 @@ variables:
   CI_REGISTRY_IMAGE: ravermeister/${IMAGE_NAME}
   GPG_USER: forgejo
   GPG_MAIL: forgejo@example.net
-  DOCKER_AUTH_CONFIG: '
+  DOCKER_AUTH_CONFIG: |
     {
       "credsStore": "pass"
     }
-  '
 
 include:
   - local: .gitlab/.gitlab-ci.tpl.yml
@@ -24,3 +23,19 @@ include:
 stages:
   - create
   - release
+
+manifest:
+  stage: release
+  extends:
+    - .amd64
+  needs:
+    - create_arm64
+    - create_amd64
+  script:
+    - echo "creating tags"
+    # creating initial 'latest' and 'version' tag with amd64 image
+    - docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}:latest" "${CI_REGISTRY_IMAGE}:amd64"
+    - docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}:${FORGEJO_RUNNER_VERSION}" "${CI_REGISTRY_IMAGE}:amd64"
+    # append arm64 image to 'latest' and 'version' tag
+    - docker buildx imagetools create --append --tag "${CI_REGISTRY_IMAGE}:latest" "${CI_REGISTRY_IMAGE}:arm64"
+    - docker buildx imagetools create --append --tag "${CI_REGISTRY_IMAGE}:${FORGEJO_RUNNER_VERSION}" "${CI_REGISTRY_IMAGE}:arm64"

@@ -24,5 +24,5 @@ COPY --chmod=755 assets/forgectrl /usr/local/bin/
 RUN forgectrl setup
 
 # arm64 forgejo-runner
-FROM base_amd64 AS forgejo-runner-arm64
+FROM base_arm64 AS forgejo-runner-arm64
 ENTRYPOINT ["forgectrl", "run"]

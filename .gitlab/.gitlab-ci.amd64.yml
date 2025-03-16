@@ -13,7 +13,7 @@ create_amd64:
         -t "${IMAGE_NAME}" \
         -t "${CI_REGISTRY_IMAGE}:amd64" \
         .
-    - docker push "${CI_REGISTRY_IMAGE}:adm64"
+    - docker push "${CI_REGISTRY_IMAGE}:amd64"
 
 release_amd64:
   stage: release

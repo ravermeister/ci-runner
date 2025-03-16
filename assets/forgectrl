@@ -23,11 +23,15 @@ install_docker_cli() {
 }
 
 install_node() {
-	apt -yq install nodejs
+	apt -yq install nodejs npm
 }
 
 install_tools() {
-	tar -C /usr/local -xzf /tmp/tools/go.tar.gz
+	tar -C /usr/local/share -xzf /tmp/tools/go.tar.gz
+	while IFS= read -r -d '' file; do
+		ln -s "$file" /usr/local/bin
+	done <  <(find /usr/local/share/go/bin -type f -print0)
+
 	rm -rf /tmp/tools
 }
 

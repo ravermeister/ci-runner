@@ -4,10 +4,6 @@
   variables:
     BUILDX_ARCHITECTURE: linux-amd64
     DOCKER_CREDENTIAL_HELPER_ARCHITECTURE: linux-amd64
-  rules:
-    - if: $CI_SERVER_HOST == "gitlab.com"
-      when: always
-    - when: never
   tags: []
 
 # amd64 env template
@@ -16,10 +12,6 @@
   variables:
     BUILDX_ARCHITECTURE: linux-arm64
     DOCKER_CREDENTIAL_HELPER_ARCHITECTURE: linux-arm64
-  rules:
-    - if: $CI_SERVER_HOST == "gitlab.rimkus.it"
-      when: always
-    - when: never
   tags:
     - arm64
     - docker

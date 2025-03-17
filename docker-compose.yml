@@ -5,12 +5,21 @@ services:
     privileged: true
     restart: unless-stopped
     command: ['dockerd', '-H', 'tcp://0.0.0.0:2375', '--tls=false']
+    healthcheck:
+      test: ["CMD", "docker", "-H", "tcp://docker:2375", "info"]
+      interval: 3s
+      timeout: 2s
+      retries: 10
   forgejo:
     image: docker.io/ravermeister/forgejo-runner
     hostname: forgejo
     restart: unless-stopped
     depends_on:
-      - docker
+      docker:
+        condition: service_healthy
     volumes:
       - /etc/forgejo/runner.cfg:/root/.runner
       - /etc/forgejo/config.yml:/etc/forgejo.yml
+      - /media/forgejo-runner/cache:/root/.cache/actcache
+      - /media/forgejo-runner/host/parent:/root/.cache/act
+      - /media/forgejo-runner/docker/parent:/workspace

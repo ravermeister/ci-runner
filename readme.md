@@ -10,9 +10,13 @@ it can be enriched with [additional tools](https://gitlab.rimkus.it/development/
 - Docker
 
 ## Software included:
+
+### Runner
 - Forgejo Runner in `/usr/local/bin/forgejo-runner`
 - Woodpecker Runner in `/usr/local/bin/woodpecker-agent`
 - Gitlab Runner in `/usr/local/bin/gitlab-runner`
+
+### Tools
 - node
 - go
 - docker-ce-cli

@@ -37,13 +37,19 @@ manifest:
   needs:
     - create_arm64
     - create_amd64
+  variables:
+    DOCKER_TAGS: |
+      latest 
+      forgejo-runner
+      forgejo-runner-${FORGEJO_VERSION}
+      gitlab-runner
+      gitlab-runner-${GITLAB_VERSION}
+      woodpecker-agent
+      woodpecker-agent-${WOODPECKER_VERSION}
   script:
-    - echo "creating tags"
-    # creating initial 'latest' and 'version' tag with amd64 image
-    - docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}:latest" "${CI_REGISTRY_IMAGE}:amd64"
-    - docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}:${FORGEJO_VERSION}" "${CI_REGISTRY_IMAGE}:amd64"
-    - docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}:${WOODPECKER_VERSION}" "${CI_REGISTRY_IMAGE}:amd64"
-    # append arm64 image to 'latest' and 'version' tag
-    - docker buildx imagetools create --append --tag "${CI_REGISTRY_IMAGE}:latest" "${CI_REGISTRY_IMAGE}:arm64"
-    - docker buildx imagetools create --append --tag "${CI_REGISTRY_IMAGE}:${FORGEJO_VERSION}" "${CI_REGISTRY_IMAGE}:arm64"
-    - docker buildx imagetools create --append --tag "${CI_REGISTRY_IMAGE}:${WOODPECKER_VERSION}" "${CI_REGISTRY_IMAGE}:arm64"
+    - |
+      for tag in $(printf "$DOCKER_TAGS" | xargs); do
+        printf "creating tag ${CI_REGISTRY_IMAGE}:${tag}"
+        docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}:${tag}" "${CI_REGISTRY_IMAGE}:amd64"  
+        docker buildx imagetools create --append --tag "${CI_REGISTRY_IMAGE}:${tag}" "${CI_REGISTRY_IMAGE}:arm64"
+      done

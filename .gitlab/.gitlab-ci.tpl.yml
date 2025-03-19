@@ -3,6 +3,7 @@
   extends: .dind
   variables:
     DOCKER_ENV_FILE: .env/amd64.env
+    DOCKER_PLATFORM: linux/amd64
   tags: []
 
 # arm64 env template
@@ -10,6 +11,7 @@
   extends: .dind
   variables:
     DOCKER_ENV_FILE: .env/arm64.env
+    DOCKER_PLATFORM: linux/arm64
   tags:
     - arm64
     - docker
@@ -27,7 +29,7 @@
       printf "%s: %s\n" "Go Version" "$GO_VERSION"
 
       printf "building environment:\n"
-      printf "%s: %s\n" "BASE_IMAGE" "$BASE_IMAGE"
+      printf "%s: %s\n" "DOCKER_BASE_IMAGE" "$DOCKER_BASE_IMAGE"
       printf "%s: %s\n" "BUILDX_ARCHITECTURE" "$BUILDX_ARCHITECTURE"
       printf "%s: %s\n" "DOCKER_CREDENTIAL_HELPER_ARCHITECTURE" "$DOCKER_CREDENTIAL_HELPER_ARCHITECTURE"
       printf "%s: %s\n" "FORGEJO_ARCH" "$FORGEJO_ARCH"
@@ -43,7 +45,6 @@
         --build-arg "FORGEJO_VERSION=$FORGEJO_VERSION" \
         --build-arg "WOODPECKER_VERSION=$WOODPECKER_VERSION" \
         --build-arg "GO_VERSION=$GO_VERSION" \
-        --build-arg "BASE_IMAGE=$DOCKER_BASE_IMAGE" \
         --build-arg "FORGEJO_ARCH=$FORGEJO_ARCH" \
         --build-arg "WOODPECKER_ARCH=$WOODPECKER_ARCH" \
         --build-arg "GITLAB_ARCH=$GITLAB_ARCH" \

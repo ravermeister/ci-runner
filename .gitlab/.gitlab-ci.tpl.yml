@@ -46,7 +46,7 @@
       export $(grep -v '^[[:space:]]*#' ${DOCKER_ENV_FILE} | xargs)    
       printf "Loading environment variables from ${DOCKER_ENV_FILE} file\n"
       printf "building environment:\n"
-      printf " %s: %s\n" "BUILDX_ARCHITECTURE" "$BUILDX_ARCHITECTURE"
+      printf " %s: %s\n" "DOCKER_BUILDX_ARCHITECTURE" "$DOCKER_BUILDX_ARCHITECTURE"
       printf " %s: %s\n" "DOCKER_CREDENTIAL_HELPER_ARCHITECTURE" "$DOCKER_CREDENTIAL_HELPER_ARCHITECTURE"
       printf " %s: %s\n" "DOCKER_PLATFORM" "$DOCKER_PLATFORM"
       printf " %s: %s\n" "DOCKER_BASE_IMAGE" "$DOCKER_BASE_IMAGE"      
@@ -56,7 +56,7 @@
       printf " %s: %s\n" "FORGEJO_ARCH" "$FORGEJO_ARCH"
       printf " %s: %s\n" "WOODPECKER_ARCH" "$WOODPECKER_ARCH"
       printf " %s: %s\n" "GITLAB_ARCH" "$GITLAB_ARCH"
-      printf " %s: %s\n" "GO_ARCH" "$GO_ARCH"      
+      printf " %s: %s\n" "GO_ARCH" "$GO_ARCH"
 
       printf "building runner Versions:\n"
       printf " %s: %s\n" "Forgejo Runner" "$FORGEJO_VERSION"

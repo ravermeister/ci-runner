@@ -1,4 +1,7 @@
 ARG DOCKER_BASE_IMAGE=debian:stable-slim
+
+# create image
+FROM "$DOCKER_BASE_IMAGE"
 ARG FORGEJO_VERSION=6.2.2
 ARG WOODPECKER_VERSION=3.4.0
 ARG WOODPECKER_ARCH=
@@ -13,8 +16,6 @@ ARG WOODPECKER_ARCH=linux_arm64
 # linux-arm64 or linux-amd64
 ARG GO_ARCH=linux-arm64
 
-# create base image
-FROM "$DOCKER_BASE_IMAGE" AS base
 SHELL ["/bin/sh", "-c"]
 ENV LANG=C.UTF-8
 # Install required packages

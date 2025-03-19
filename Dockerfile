@@ -10,8 +10,11 @@ RUN set -eux; \
     && apt-get dist-upgrade -yq --no-install-recommends \
     # Install Dependencies
     && apt-get install -yq --no-install-recommends \
-        ca-certificates curl nodejs npm nano \
+        ca-certificates curl nodejs npm nano \        
     # Add the Docker CE repository to Apt sources
+    && install -m 0755 -d /etc/apt/keyrings \
+    && curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc \
+    && chmod a+r /etc/apt/keyrings/docker.asc \
     &&  echo \
           "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
           $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \

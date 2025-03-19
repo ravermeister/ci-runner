@@ -42,11 +42,8 @@ manifest:
   variables:
     DOCKER_TAGS: |
       latest 
-      forgejo-runner
-      forgejo-runner-$FORGEJO_VERSION
-      gitlab-runner
-      gitlab-runner-$GITLAB_VERSION
-      woodpecker-agent
+      forgejo-runner-$FORGEJO_VERSION      
+      gitlab-runner-$GITLAB_VERSION      
       woodpecker-agent-$WOODPECKER_VERSION
   script:
     - |

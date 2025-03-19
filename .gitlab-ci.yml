@@ -42,9 +42,9 @@ manifest:
   variables:
     DOCKER_TAGS: |
       latest 
-      forgejo-runner-$FORGEJO_VERSION      
-      gitlab-runner-$GITLAB_VERSION      
-      woodpecker-agent-$WOODPECKER_VERSION
+      forgejo-$FORGEJO_VERSION      
+      gitlab-$GITLAB_VERSION      
+      woodpecker-$WOODPECKER_VERSION
   script:
     - |
       for tag in $(printf "$DOCKER_TAGS" | xargs); do

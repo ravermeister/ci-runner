@@ -2,15 +2,15 @@ variables:
   FORGEJO_VERSION: 6.2.2
   WOODPECKER_VERSION: 3.4.0
   GO_VERSION: 1.24.1
-  IMAGE_NAME: forgejo-runner
+  IMAGE_NAME: ci-runner
   GIT_SUBMODULE_STRATEGY: recursive
 #  BUILDX_VERSION: v0.21.1
 #  DOCKER_CREDENTIAL_HELPER_VERSION: v0.9.1
 #  CI_REGISTRY_USER: xxx
 #  CI_REGISTRY_PASSWORD: xxx
   CI_REGISTRY_IMAGE: ravermeister/${IMAGE_NAME}
-  GPG_USER: forgejo
-  GPG_MAIL: forgejo@example.net
+  GPG_USER: ci-runner
+  GPG_MAIL: ci-runner@example.net
   DOCKER_AUTH_CONFIG: |
     {
       "credsStore": "pass"

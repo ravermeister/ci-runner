@@ -1,8 +1,6 @@
 # Multiple CI Runner in Docker
 
 This Container includes multiple CI Runners and additional Tools.
-Additionally,
-it can be enriched with [additional tools](https://gitlab.rimkus.it/development/ci-runner/-/blob/main/assets/forgectrl?ref_type=heads) Very easily.
 
 ## System Requirements
 - [amd64](https://hub.docker.com/repository/docker/ravermeister/ci-runner/tags?name=amd64) (images are based on [Debian:stable-slim](https://hub.docker.com/_/debian/tags?name=stable-slim))

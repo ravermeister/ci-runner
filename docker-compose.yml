@@ -11,7 +11,7 @@ services:
       timeout: 2s
       retries: 10
   forgejo:
-    image: docker.io/ravermeister/forgejo-runner
+    image: docker.io/ravermeister/ci-runner
     hostname: forgejo
     restart: unless-stopped
     depends_on:
@@ -20,6 +20,6 @@ services:
     volumes:
       - /etc/forgejo/runner.cfg:/root/.runner
       - /etc/forgejo/config.yml:/etc/forgejo.yml
-      - /media/forgejo-runner/cache:/root/.cache/actcache
-      - /media/forgejo-runner/host/parent:/root/.cache/act
-      - /media/forgejo-runner/docker/parent:/workspace
+      - /media/ci-runner/forgejo/cache:/root/.cache/actcache
+      - /media/ci-runner/forgejo/host/parent:/root/.cache/act
+      - /media/ci-runner/forgejo/docker/parent:/workspace

@@ -5,6 +5,7 @@ ENV LANG=C.UTF-8
 # Install required packages
 RUN set -eux; \
     export DEBIAN_FRONTEND=noninteractive \
+    && printf "running on $(uname -a)" \
     && apt-get update -q \
     # Upgrade Base Image
     && apt-get dist-upgrade -yq --no-install-recommends \

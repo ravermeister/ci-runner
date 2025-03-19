@@ -1,5 +1,6 @@
 variables:
-  FORGEJO_RUNNER_VERSION: 6.2.2
+  FORGEJO_VERSION: 6.2.2
+  WOODPECKER_VERSION: 3.4.0
   GO_VERSION: 1.24.1
   IMAGE_NAME: forgejo-runner
   GIT_SUBMODULE_STRATEGY: recursive
@@ -35,7 +36,9 @@ manifest:
     - echo "creating tags"
     # creating initial 'latest' and 'version' tag with amd64 image
     - docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}:latest" "${CI_REGISTRY_IMAGE}:amd64"
-    - docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}:${FORGEJO_RUNNER_VERSION}" "${CI_REGISTRY_IMAGE}:amd64"
+    - docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}:${FORGEJO_VERSION}" "${CI_REGISTRY_IMAGE}:amd64"
+    - docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}:${WOODPECKER_VERSION}" "${CI_REGISTRY_IMAGE}:amd64"
     # append arm64 image to 'latest' and 'version' tag
     - docker buildx imagetools create --append --tag "${CI_REGISTRY_IMAGE}:latest" "${CI_REGISTRY_IMAGE}:arm64"
-    - docker buildx imagetools create --append --tag "${CI_REGISTRY_IMAGE}:${FORGEJO_RUNNER_VERSION}" "${CI_REGISTRY_IMAGE}:arm64"
+    - docker buildx imagetools create --append --tag "${CI_REGISTRY_IMAGE}:${FORGEJO_VERSION}" "${CI_REGISTRY_IMAGE}:arm64"
+    - docker buildx imagetools create --append --tag "${CI_REGISTRY_IMAGE}:${WOODPECKER_VERSION}" "${CI_REGISTRY_IMAGE}:arm64"

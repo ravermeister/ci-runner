@@ -6,6 +6,7 @@
     DOCKER_CREDENTIAL_HELPER_ARCHITECTURE: linux-amd64
     DOCKER_TARGET_PLATFORM: linux/amd64
     DOCKER_TARGET_IMAGE_TAG: amd64
+    DOCKER_BUILD_TARGET: ci-runner-amd64
   tags: []
 
 # arm64 env template
@@ -16,6 +17,7 @@
     DOCKER_CREDENTIAL_HELPER_ARCHITECTURE: linux-arm64
     DOCKER_TARGET_PLATFORM: linux/arm64
     DOCKER_TARGET_IMAGE_TAG: arm64
+    DOCKER_BUILD_TARGET: ci-runner-arm64
   tags:
     - arm64
     - docker
@@ -27,10 +29,10 @@
     - >
       docker buildx build --no-cache --force-rm --compress --load \
         --platform "$DOCKER_TARGET_PLATFORM" \
-        --build-arg FORGEJO_VERSION=$FORGEJO_VERSION \
-        --build-arg WOODPECKER_VERSION=$WOODPECKER_VERSION \
-        --build-arg GO_VERSION=$GO_VERSION \
-        --target forgejo-runner-arm64 \
+        --build-arg "FORGEJO_VERSION=$FORGEJO_VERSION" \
+        --build-arg "WOODPECKER_VERSION=$WOODPECKER_VERSION" \
+        --build-arg "GO_VERSION=$GO_VERSION" \
+        --target "$DOCKER_BUILD_TARGET" \
         -t "${IMAGE_NAME}" \
         -t "${CI_REGISTRY_IMAGE}:${DOCKER_TARGET_IMAGE_TAG}" \
         .

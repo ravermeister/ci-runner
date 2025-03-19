@@ -23,13 +23,13 @@ RUN ci-runner setup
 ###
 
 # arm64 forgejo-runner
-FROM base_arm64 AS forgejo-runner-arm64
+FROM base_arm64 AS ci-runner-arm64
 ENV CI_RUNNER="forgejo"
 WORKDIR /root
 ENTRYPOINT ["ci-runner", "run"]
 
 # amd64 forgejo-runner
-FROM base_amd64 AS forgejo-runner-amd64
+FROM base_amd64 AS ci-runner-amd64
 ENV CI_RUNNER="forgejo"
 WORKDIR /root
 ENTRYPOINT ["ci-runner", "run"]

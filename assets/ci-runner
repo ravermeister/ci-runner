@@ -48,7 +48,7 @@ install_node() {
 
 install_tools() {
 
-	tar -C /usr/local/bin/ -xzf /tmp/woodpecker-agent.tar.gz
+	tar -C /usr/local/bin/ -xzf /tmp/tools/woodpecker-agent.tar.gz
 	# woodpecker-agent
 
 	tar -C /usr/local/share -xzf /tmp/tools/go.tar.gz

@@ -16,6 +16,7 @@
 
 # create image template
 .create:
+  script:
     - >
       docker buildx build --no-cache --force-rm --compress --load \      
         --platform "$DOCKER_PLATFORM" \

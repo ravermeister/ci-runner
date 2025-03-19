@@ -2,47 +2,23 @@
 .amd64:
   extends: .dind
   variables:
-    BUILDX_ARCHITECTURE: linux-amd64
-    DOCKER_CREDENTIAL_HELPER_ARCHITECTURE: linux-amd64
-    DOCKER_TARGET_PLATFORM: linux/amd64
-    DOCKER_TARGET_IMAGE_TAG: amd64
-    DOCKER_BUILD_TARGET: ci-runner-amd64
-    DOCKER_BASE_IMAGE: debian:stable-slim
-    FORGEJO_ARCHITECTURE: linux-amd64
-    # linux-arm64 or linux-amd64
-    FORGEJO_ARCHITECTURE: linux-amd64
-    # linux-arm or linux-amd64
-    GITLAB_ARCH: linux-amd64
-    # linux_arm64 or linux_amd64
-    WOODPECKER_ARCH: linux_amd64
-    # linux-arm64 or linux-amd64
-    GO_ARCH: linux-amd64
+    DOCKER_ENV_FILE: amd64.env
   tags: []
 
 # arm64 env template
 .arm64:
   extends: .dind
   variables:
-    BUILDX_ARCHITECTURE: linux-arm64    
-    DOCKER_CREDENTIAL_HELPER_ARCHITECTURE: linux-arm64
-    DOCKER_TARGET_PLATFORM: linux/arm64
-    DOCKER_TARGET_IMAGE_TAG: arm64
-    DOCKER_BUILD_TARGET: ci-runner-arm64
-    DOCKER_BASE_IMAGE: arm64v8/debian:stable-slim
-    # linux-arm64 or linux-amd64
-    FORGEJO_ARCH: linux-arm64
-    # linux-arm or linux-amd64
-    GITLAB_ARCH: linux-arm
-    # linux_arm64 or linux_amd64
-    WOODPECKER_ARCH: linux_arm64
-    # linux-arm64 or linux-amd64
-    GO_ARCH: linux-arm64
+    DOCKER_ENV_FILE: arm64.env
   tags:
     - arm64
     - docker
 
 # create image template
 .create:
+  before_script:
+    - echo "Loading environment variables from ${DOCKER_ENV_FILE} file"
+    - export $(cat "${DOCKER_ENV_FILE}" | xargs)
   script:
     - echo "build Forgejo Runner Version $FORGEJO_VERSION"
     - >

@@ -13,15 +13,13 @@ ARG WOODPECKER_ARCH=linux_arm64
 # linux-arm64 or linux-amd64
 ARG GO_ARCH=linux-arm64
 
-
-
-# arm64 forgejo-runner
+# arm64 ci-runner
 FROM base AS ci-runner-arm64
 ENV CI_RUNNER="forgejo"
 WORKDIR /root
 ENTRYPOINT ["ci-runner", "run"]
 
-# amd64 forgejo-runner
+# amd64 ci-runner
 FROM base_amd64 AS ci-runner-amd64
 ENV CI_RUNNER="forgejo"
 WORKDIR /root

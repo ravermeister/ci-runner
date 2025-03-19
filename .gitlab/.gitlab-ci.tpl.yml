@@ -7,17 +7,36 @@
     DOCKER_TARGET_PLATFORM: linux/amd64
     DOCKER_TARGET_IMAGE_TAG: amd64
     DOCKER_BUILD_TARGET: ci-runner-amd64
+    DOCKER_BASE_IMAGE: debian:stable-slim
+    FORGEJO_ARCHITECTURE: linux-amd64
+    # linux-arm64 or linux-amd64
+    FORGEJO_ARCHITECTURE: linux-amd64
+    # linux-arm or linux-amd64
+    GITLAB_ARCH: linux-amd64
+    # linux_arm64 or linux_amd64
+    WOODPECKER_ARCH: linux_amd64
+    # linux-arm64 or linux-amd64
+    GO_ARCH: linux-amd64
   tags: []
 
 # arm64 env template
 .arm64:
   extends: .dind
   variables:
-    BUILDX_ARCHITECTURE: linux-arm64
+    BUILDX_ARCHITECTURE: linux-arm64    
     DOCKER_CREDENTIAL_HELPER_ARCHITECTURE: linux-arm64
     DOCKER_TARGET_PLATFORM: linux/arm64
     DOCKER_TARGET_IMAGE_TAG: arm64
     DOCKER_BUILD_TARGET: ci-runner-arm64
+    DOCKER_BASE_IMAGE: arm64v8/debian:stable-slim
+    # linux-arm64 or linux-amd64
+    FORGEJO_ARCH: linux-arm64
+    # linux-arm or linux-amd64
+    GITLAB_ARCH: linux-arm
+    # linux_arm64 or linux_amd64
+    WOODPECKER_ARCH: linux_arm64
+    # linux-arm64 or linux-amd64
+    GO_ARCH: linux-arm64
   tags:
     - arm64
     - docker
@@ -27,11 +46,17 @@
   script:
     - echo "build Forgejo Runner Version $FORGEJO_VERSION"
     - >
-      docker buildx build --no-cache --force-rm --compress --load \
-        --platform "$DOCKER_TARGET_PLATFORM" \
+      docker buildx build --no-cache --force-rm --compress --load \      
+        --platform "$DOCKER_TARGET_PLATFORM" \                
+        --build-arg "DOCKER_BASE_IMAGE=$DOCKER_BASE_IMAGE" \
         --build-arg "FORGEJO_VERSION=$FORGEJO_VERSION" \
         --build-arg "WOODPECKER_VERSION=$WOODPECKER_VERSION" \
         --build-arg "GO_VERSION=$GO_VERSION" \
+        --build-arg "BASE_IMAGE=$DOCKER_BASE_IMAGE" \
+        --build-arg "FORGEJO_ARCH=$FORGEJO_ARCH" \
+        --build-arg "WOODPECKER_ARCH=$WOODPECKER_ARCH" \
+        --build-arg "GITLAB_ARCH=$GITLAB_ARCH" \
+        --build-arg "GO_ARCH=$GO_ARCH" \
         --target "$DOCKER_BUILD_TARGET" \
         -t "${IMAGE_NAME}" \
         -t "${CI_REGISTRY_IMAGE}:${DOCKER_TARGET_IMAGE_TAG}" \

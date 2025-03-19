@@ -1,54 +1,12 @@
 #!/bin/bash
 
-link_bin_dir() {
-	if [ ! -d "$1" ]; then
-		printf "%s is not a directory!" "$1">&2
-		return 1
-	fi
-
-	while IFS= read -r -d '' file; do
-		ln -s "$file" /usr/local/bin
-	done <  <(find "$1" -type f -print0)
-}
-
-clean_system() {
-	# clean apt
-	apt -yq clean
-	rm -rf /var/lib/apt/lists/*
-	# Remove MOTD
-	rm -rf /etc/update-motd.d /etc/motd /etc/motd.dynamic
-	ln -fs /dev/null /run/motd.dynamic
-}
-
-install_tools() {
-
-	tar -C /usr/local/bin/ -xzf /tmp/tools/woodpecker-agent.tar.gz
-	# woodpecker-agent
-
-	tar -C /usr/local/share -xzf /tmp/tools/go.tar.gz
-	link_bin_dir "/usr/local/share/go/bin"
-	# go
-
-	rm -rf /tmp/tools
-}
-
-init_container() {
-	set -eux
-	export DEBIAN_FRONTEND=noninteractive
-	LANG=C.UTF-8
-	
-	install_tools
-	clean_system
-}
-
 start_container() {
 	case "$CI_RUNNER" in
 		"woodpecker")
-			printf "woodpecker start is not yet supported" >&2
-			exit 1
+			woodpecker-agent
 		;;
 		"gitlab")
-			printf "gitlab start is not yet supported" >&2
+			printf "gitlab start not yet implemented" >&2
 			exit 1
 		;;
 		*)
@@ -59,16 +17,12 @@ start_container() {
 
 usage() {
 	BASE_NAME="$(basename "$0")"
-	printf "%s\t%s\t%s\n" "${BASE_NAME}" "setup" "install all tools"
 	printf "%s\t%s\t%s\n" "${BASE_NAME}" "run" "starts the [forgejo-runner|woodpecker-agent|gitlab-runner]"
 }
 
 ###########
 
 case $1 in
-	setup)
-		init_container
-	;;
 	run)
 		start_container
 	;;

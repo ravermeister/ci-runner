@@ -13,26 +13,13 @@ ARG WOODPECKER_ARCH=linux_arm64
 # linux-arm64 or linux-amd64
 ARG GO_ARCH=linux-arm64
 
-# arm64 ci-runner
-FROM base AS ci-runner-arm64
-ENV CI_RUNNER="forgejo"
-WORKDIR /root
-ENTRYPOINT ["ci-runner", "run"]
-
-# amd64 ci-runner
-FROM base_amd64 AS ci-runner-amd64
-ENV CI_RUNNER="forgejo"
-WORKDIR /root
-ENTRYPOINT ["ci-runner", "run"]
-
 # create base image
 FROM "$BASE_IMAGE" AS base
 SHELL ["/bin/sh", "-c"]
 ENV LANG=C.UTF-8
 # Install required packages
 RUN set -eux; \
-    export DEBIAN_FRONTEND=noninteractive \
-    && printf "running on $(uname -a)" \
+    export DEBIAN_FRONTEND=noninteractive \    
     && apt-get update -q \
     # Upgrade Base Image
     && apt-get dist-upgrade -yq --no-install-recommends \
@@ -63,5 +50,6 @@ ADD https://github.com/woodpecker-ci/woodpecker/releases/download/v${WOODPECKER_
 ADD https://go.dev/dl/go${GO_VERSION}.${GO_ARCH}.tar.gz /tmp/tools/go.tar.gz
 COPY --chmod=755 assets/ci-runner /usr/local/bin/
 
-
-
+ENV CI_RUNNER="forgejo"
+WORKDIR /root
+ENTRYPOINT ["ci-runner", "run"]

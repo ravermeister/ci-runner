@@ -20,6 +20,6 @@ services:
     volumes:
       - /etc/forgejo/runner.cfg:/root/.runner
       - /etc/forgejo/config.yml:/etc/forgejo.yml
-      - /media/ci-runner/forgejo/cache:/root/.cache/actcache
-      - /media/ci-runner/forgejo/host/parent:/root/.cache/act
-      - /media/ci-runner/forgejo/docker/parent:/workspace
+      - /data/forgejo-runner/cache:/root/.cache/actcache
+      - /data/forgejo-runner/host/parent:/root/.cache/act
+      - /data/forgejo-runner/docker/parent:/workspace

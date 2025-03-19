@@ -1,9 +1,8 @@
 # Multiple CI Runner in Docker
 
-  
-- sd 
-
-The [arm64](https://hub.docker.com/repository/docker/ravermeister/ci-runner/tags?name=arm64) is based on `arm64v8/debian:stable-slim`.
+This Container includes multiple CI Runners and additional Tools.
+Additionally,
+it can be enriched with [additional tools](https://gitlab.rimkus.it/development/ci-runner/-/blob/main/assets/forgectrl?ref_type=heads) Very easily.
 
 ## System Requirements
 - [amd64](https://hub.docker.com/repository/docker/ravermeister/ci-runner/tags?name=amd64) (images are based on [Debian:stable-slim](https://hub.docker.com/_/debian/tags?name=stable-slim))
@@ -11,16 +10,18 @@ The [arm64](https://hub.docker.com/repository/docker/ravermeister/ci-runner/tags
 - Docker
 
 ## Software included:
-- Forgejo Runner in `/usr/local/bin/ci-runner`
+- Forgejo Runner in `/usr/local/bin/forgejo-runner`
+- Woodpecker Runner in `/usr/local/bin/woodpecker-agent`
+- Gitlab Runner in `/usr/local/bin/gitlab-runner`
 - node
 - go
 - docker-ce-cli
 
 ## How to run
-This image can be used as a forgejo host and docker runner.
-Additionally,
-it can be enriched with [additional tools](https://gitlab.rimkus.it/development/ci-runner/-/blob/main/assets/forgectrl?ref_type=heads) Very easily.
 
+Before starting, you have to configure a runner:
+
+### configure forgejo-runner
 before using this image you have to generate a `config.yml`
 ```bash
 wget -qO docker-compose.yml https://gitlab.rimkus.it/development/ci-runner/-/raw/main/docker-compose.yml?ref_type=heads
@@ -32,3 +33,9 @@ docker-compose run -v $(pwd)/runner.cfg:/root/.runner -it --entrypoint ci-runner
 
 you can use the [docker-compose](https://gitlab.rimkus.it/development/ci-runner/-/blob/main/docker-compose.yml?ref_type=heads) as an example
 of how to run this image. 
+
+### configure woodkpecker-agent
+_TODO_
+
+### configure gitlab-runner
+_TODO_

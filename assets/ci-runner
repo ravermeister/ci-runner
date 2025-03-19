@@ -75,6 +75,10 @@ start_container() {
 			printf "woodpecker start is not yet supported" >&2
 			exit 1
 		;;
+		"gitlab")
+			printf "gitlab start is not yet supported" >&2
+			exit 1
+		;;
 		*)
 			forgejo-runner -c /etc/forgejo.yml daemon
 		;;

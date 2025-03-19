@@ -2,6 +2,8 @@ variables:
 #  CI_REGISTRY_USER: xxx
 #  CI_REGISTRY_PASSWORD: xxx
   DOCKER_BUILD_IMAGE_NAME: ci-runner
+  DOCKER_BUILD_IMAGE_TAG_ARM64: arm64
+  DOCKER_BUILD_IMAGE_TAG_AMD64: amd64
   CI_REGISTRY_BUILD_IMAGE_NAME: ravermeister/${DOCKER_BUILD_IMAGE_NAME}
   GIT_SUBMODULE_STRATEGY: recursive  
   GPG_USER: ci-runner
@@ -50,6 +52,6 @@ manifest:
     - |
       for tag in $(printf "$DOCKER_TAGS" | xargs); do
         printf "creating tag ${CI_REGISTRY_IMAGE}:${tag}"
-        docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}:${tag}" "${CI_REGISTRY_IMAGE}:amd64"  
-        docker buildx imagetools create --append --tag "${CI_REGISTRY_IMAGE}:${tag}" "${CI_REGISTRY_IMAGE}:arm64"
+        docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}:${tag}" "${CI_REGISTRY_IMAGE}:${DOCKER_BUILD_IMAGE_TAG_AMD64}"  
+        docker buildx imagetools create --append --tag "${CI_REGISTRY_IMAGE}:${tag}" "${CI_REGISTRY_IMAGE}:${DOCKER_BUILD_IMAGE_TAG_ARM64}"
       done

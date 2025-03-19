@@ -3,13 +3,15 @@
   extends: .dind
   variables:
     DOCKER_ENV_FILE: .env/amd64.env    
+    DOCKER_BUILD_IMAGE_TAG: ${DOCKER_BUILD_IMAGE_TAG_AMD64}
   tags: []
 
 # arm64 env template
 .arm64:
   extends: .dind
   variables:
-    DOCKER_ENV_FILE: .env/arm64.env    
+    DOCKER_ENV_FILE: .env/arm64.env
+    DOCKER_BUILD_IMAGE_TAG: ${DOCKER_BUILD_IMAGE_TAG_ARM64}
   tags:
     - arm64
     - docker

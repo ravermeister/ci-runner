@@ -1,5 +1,16 @@
 #!/bin/bash
 
+link_bin_dir() {
+	if [ ! -d "$1" ]; then
+		printf "%s is not a directory!" "$1">&2
+		return 1
+	fi
+
+	while IFS= read -r -d '' file; do
+		ln -s "$file" /usr/local/bin
+	done <  <(find "$1" -type f -print0)
+}
+
 clean_system() {
 	# clean apt
 	apt -yq clean
@@ -36,10 +47,13 @@ install_node() {
 }
 
 install_tools() {
+
+	tar -C /usr/local/bin/ -xzf /tmp/woodpecker-agent.tar.gz
+	# woodpecker-agent
+
 	tar -C /usr/local/share -xzf /tmp/tools/go.tar.gz
-	while IFS= read -r -d '' file; do
-		ln -s "$file" /usr/local/bin
-	done <  <(find /usr/local/share/go/bin -type f -print0)
+	link_bin_dir "/usr/local/share/go/bin"
+	# go
 
 	rm -rf /tmp/tools
 }
@@ -56,7 +70,15 @@ init_container() {
 }
 
 start_container() {
-	forgejo-runner -c /etc/forgejo.yml daemon
+	case "$CI_RUNNER" in
+		"woodpecker")
+			printf "woodpecker start is not yet supported" >&2
+			exit 1
+		;;
+		*)
+			forgejo-runner -c /etc/forgejo.yml daemon
+		;;
+	esac
 }
 
 usage() {

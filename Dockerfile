@@ -1,29 +1,35 @@
 # amd64 base
 FROM debian:stable-slim AS base_amd64
 ARG FORGEJO_VERSION=6.2.2
+ARG WOODPECKER_VERSION=3.4.0
 ARG GO_VERSION=1.24.1
 ADD --chmod=755 https://code.forgejo.org/forgejo/runner/releases/download/v${FORGEJO_VERSION}/forgejo-runner-${FORGEJO_VERSION}-linux-amd64 /usr/local/bin/forgejo-runner
+ADD https://github.com/woodpecker-ci/woodpecker/releases/download/v${WOODPECKER_VERSION}/woodpecker-agent_linux_amd64.tar.gz /tmp/tools/woodpecker-agent.tar.gz
 ADD https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz /tmp/tools/go.tar.gz
-COPY --chmod=755 assets/forgectrl /usr/local/bin/
-RUN forgectrl setup
+COPY --chmod=755 assets/ci-runner /usr/local/bin/
+RUN ci-runner setup
 
 # arm64 base
 FROM arm64v8/debian:stable-slim AS base_arm64
 ARG FORGEJO_VERSION=6.2.2
+ARG WOODPECKER_VERSION=3.4.0
 ARG GO_VERSION=1.24.1
 ADD --chmod=755 https://code.forgejo.org/forgejo/runner/releases/download/v${FORGEJO_VERSION}/forgejo-runner-${FORGEJO_VERSION}-linux-arm64 /usr/local/bin/forgejo-runner
+ADD https://github.com/woodpecker-ci/woodpecker/releases/download/v${WOODPECKER_VERSION}/woodpecker-agent_linux_amd64.tar.gz /tmp/tools/woodpecker-agent.tar.gz
 ADD https://go.dev/dl/go${GO_VERSION}.linux-arm64.tar.gz /tmp/tools/go.tar.gz
-COPY --chmod=755 assets/forgectrl /usr/local/bin/
-RUN forgectrl setup
 
+COPY --chmod=755 assets/ci-runner /usr/local/bin/
+RUN ci-runner setup
 ###
 
 # arm64 forgejo-runner
 FROM base_arm64 AS forgejo-runner-arm64
+ENV CI_RUNNER="forgejo"
 WORKDIR /root
-ENTRYPOINT ["forgectrl", "run"]
+ENTRYPOINT ["ci-runner", "run"]
 
 # amd64 forgejo-runner
 FROM base_amd64 AS forgejo-runner-amd64
+ENV CI_RUNNER="forgejo"
 WORKDIR /root
-ENTRYPOINT ["forgectrl", "run"]
+ENTRYPOINT ["ci-runner", "run"]

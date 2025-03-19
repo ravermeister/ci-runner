@@ -17,23 +17,23 @@
 # create image template
 .create:
   before_script:
-    - echo "Loading environment variables from ${DOCKER_ENV_FILE} file"    
-    - export $(grep -v '^[[:space:]]*#' ${DOCKER_ENV_FILE} | xargs)
-    
-    - printf "building Versions:\n"
-    - printf "Forgejo Runner:\t%s\n" "$FORGEJO_VERSION"
-    - printf "Woodpecker Agent:\t%s\n" "$WOODPECKER_VERSION"
-    - printf "Gitlab Runner:\t%s\n" "$GITLAB_VERSION"    
-    - printf "Go Version:\t%s\n" "$GO_VERSION"
+    - printf "Loading environment variables from ${DOCKER_ENV_FILE} file"    
+    - export $(grep -v '^[[:space:]]*#' ${DOCKER_ENV_FILE} | xargs)    
+    - |
+      printf "building Versions:\n"
+      printf "Forgejo Runner:\t%s\n" "$FORGEJO_VERSION"
+      printf "Woodpecker Agent:\t%s\n" "$WOODPECKER_VERSION"
+      printf "Gitlab Runner:\t%s\n" "$GITLAB_VERSION"    
+      printf "Go Version:\t%s\n" "$GO_VERSION"
 
-    - printf "building environment:\n"
-    - printf "BASE_IMAGE:\t%s\n" "$BASE_IMAGE"
-    - printf "BUILDX_ARCHITECTURE:\t%s\n" "$BUILDX_ARCHITECTURE"
-    - printf "DOCKER_CREDENTIAL_HELPER_ARCHITECTURE:\t%s\n" "$DOCKER_CREDENTIAL_HELPER_ARCHITECTURE"
-    - printf "FORGEJO_ARCH:\t%s\n" "$FORGEJO_ARCH"
-    - printf "WOODPECKER_ARCH:\t%s\n" "$WOODPECKER_ARCH"
-    - printf "GITLAB_ARCH:\t%s\n" "$GITLAB_ARCH"
-    - printf "GO_ARCH:\t%s\n" "$GO_ARCH"
+      printf "building environment:\n"
+      printf "BASE_IMAGE:\t%s\n" "$BASE_IMAGE"
+      printf "BUILDX_ARCHITECTURE:\t%s\n" "$BUILDX_ARCHITECTURE"
+      printf "DOCKER_CREDENTIAL_HELPER_ARCHITECTURE:\t%s\n" "$DOCKER_CREDENTIAL_HELPER_ARCHITECTURE"
+      printf "FORGEJO_ARCH:\t%s\n" "$FORGEJO_ARCH"
+      printf "WOODPECKER_ARCH:\t%s\n" "$WOODPECKER_ARCH"
+      printf "GITLAB_ARCH:\t%s\n" "$GITLAB_ARCH"
+      printf "GO_ARCH:\t%s\n" "$GO_ARCH"
     
   script:    
     - >

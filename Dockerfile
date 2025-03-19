@@ -53,7 +53,7 @@ COPY --chmod=755 assets/ci-runner /usr/local/bin/
 RUN \
     tar -C /usr/local/share -xzf /tmp/tools/go.tar.gz \
     && tar -C /usr/local/bin -xzf /tmp/tools/woodpecker-agent.tar.gz \
-    && rm -rf /tmp/tools
+    && rm -rf /tmp/tools \
     && while IFS= read -r -d '' file; do 
          ln -s "$file" /usr/local/bin
        done <  <(find "/usr/local/share/go/bin" -type f -print0) 

@@ -17,8 +17,8 @@
 # create image template
 .create:
   before_script:
-    - echo "Loading environment variables from ${DOCKER_ENV_FILE} file"
-    - export $(cat "${DOCKER_ENV_FILE}" | xargs)
+    - echo "Loading environment variables from ${DOCKER_ENV_FILE} file"    
+    - export $(grep -v '^[[:space:]]*#' ${DOCKER_ENV_FILE} | xargs)
   script:
     - echo "build Forgejo Runner Version $FORGEJO_VERSION"
     - >

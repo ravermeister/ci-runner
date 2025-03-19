@@ -37,9 +37,10 @@ RUN set -eux; \
           tee /etc/apt/sources.list.d/docker.list > /dev/null \
     && apt-get update -q \
     # install Docker CE Client
-    && apt-get install docker-ce-cli \
+    && apt-get install -yq --no-install-recommends \
+        docker-ce-cli 
     # clean APT
-    && apt-get clean \
+    && apt-get -yq clean \
     && rm -rf /var/lib/apt/lists/* \    
     # Remove MOTD
     && rm -rf /etc/update-motd.d /etc/motd /etc/motd.dynamic \

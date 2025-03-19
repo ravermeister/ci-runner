@@ -20,32 +20,6 @@ clean_system() {
 	ln -fs /dev/null /run/motd.dynamic
 }
 
-update_system() {
-	apt -yq update
-  apt -yq dist-upgrade
-}
-
-install_docker_cli() {
-		# Add Docker's official GPG key:
-    apt -yq update
-    apt -yq install ca-certificates curl
-    install -m 0755 -d /etc/apt/keyrings
-    curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-    chmod a+r /etc/apt/keyrings/docker.asc
-
-    # Add the repository to Apt sources:
-    echo \
-      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
-      $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-      tee /etc/apt/sources.list.d/docker.list > /dev/null
-    apt -yq update
-	apt -yq install docker-ce-cli
-}
-
-install_node() {
-	apt -yq install nodejs npm
-}
-
 install_tools() {
 
 	tar -C /usr/local/bin/ -xzf /tmp/tools/woodpecker-agent.tar.gz
@@ -61,10 +35,8 @@ install_tools() {
 init_container() {
 	set -eux
 	export DEBIAN_FRONTEND=noninteractive
-
-	update_system
-	install_docker_cli
-	install_node
+	LANG=C.UTF-8
+	
 	install_tools
 	clean_system
 }
@@ -87,8 +59,8 @@ start_container() {
 
 usage() {
 	BASE_NAME="$(basename "$0")"
-	printf "%s\t%s\t%s\n" "${BASE_NAME}" "setup" "installs all necessary packages"
-	printf "%s\t%s\t%s\n" "${BASE_NAME}" "run" "starts the forgejo-runner"
+	printf "%s\t%s\t%s\n" "${BASE_NAME}" "setup" "install all tools"
+	printf "%s\t%s\t%s\n" "${BASE_NAME}" "run" "starts the [forgejo-runner|woodpecker-agent|gitlab-runner]"
 }
 
 ###########

@@ -16,10 +16,10 @@
 
 # create image template
 .create:
-  before_script:    
-    - printf "Loading environment variables from ${DOCKER_ENV_FILE} file\n"
-    - export $(grep -v '^[[:space:]]*#' ${DOCKER_ENV_FILE} | xargs)    
-    - |    
+  script:
+    - |
+      export $(grep -v '^[[:space:]]*#' ${DOCKER_ENV_FILE} | xargs)    
+      printf "Loading environment variables from ${DOCKER_ENV_FILE} file\n"
       printf "building environment:\n"
       printf " %s: %s\n" "BUILDX_ARCHITECTURE" "$BUILDX_ARCHITECTURE"
       printf " %s: %s\n" "DOCKER_CREDENTIAL_HELPER_ARCHITECTURE" "$DOCKER_CREDENTIAL_HELPER_ARCHITECTURE"
@@ -38,10 +38,6 @@
       printf " %s: %s\n" "Woodpecker Agent" "$WOODPECKER_VERSION"
       printf " %s: %s\n" "Gitlab Runner" "$GITLAB_VERSION"
       printf " %s: %s\n" "Go Version" "$GO_VERSION"
-
-
-    
-  script:    
     - >
       docker buildx build --no-cache --force-rm --compress --load \      
         --platform "$DOCKER_PLATFORM" \

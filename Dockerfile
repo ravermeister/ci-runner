@@ -52,11 +52,12 @@ ADD https://go.dev/dl/go${GO_VERSION}.${GO_ARCH}.tar.gz /tmp/tools/go.tar.gz
 COPY --chmod=755 assets/ci-runner /usr/local/bin/
 RUN \
     tar -C /usr/local/share -xzf /tmp/tools/go.tar.gz \
-    && while IFS= read -r -d '' file; do \
-    	ln -s "$file" /usr/local/bin \
-    done <  <(find "/usr/local/share/go/bin" -type f -print0) \
     && tar -C /usr/local/bin -xzf /tmp/tools/woodpecker-agent.tar.gz \
     && rm -rf /tmp/tools
+RUN \
+    while IFS= read -r -d '' file; do \
+      ln -s "$file" /usr/local/bin \
+    done <  <(find "/usr/local/share/go/bin" -type f -print0) 
 
 ENV CI_RUNNER="forgejo"
 WORKDIR /root

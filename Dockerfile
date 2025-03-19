@@ -50,13 +50,12 @@ ADD --chmod=755 https://gitlab-runner-downloads.s3.amazonaws.com/v${GITLAB_VERSI
 ADD https://github.com/woodpecker-ci/woodpecker/releases/download/v${WOODPECKER_VERSION}/woodpecker-agent_${WOODPECKER_ARCH}.tar.gz /tmp/tools/woodpecker-agent.tar.gz
 ADD https://go.dev/dl/go${GO_VERSION}.${GO_ARCH}.tar.gz /tmp/tools/go.tar.gz
 COPY --chmod=755 assets/ci-runner /usr/local/bin/
+SHELL ["/bin/bash"]
 RUN \
     tar -C /usr/local/share -xzf /tmp/tools/go.tar.gz \
     && tar -C /usr/local/bin -xzf /tmp/tools/woodpecker-agent.tar.gz \
-    && rm -rf /tmp/tools
-SHELL ["/bin/bash"]
-RUN \
-    while IFS= read -r -d '' file; do \
+    && rm -rf /tmp/tools \
+    && while IFS= read -r -d '' file; do \
         ln -s "$file" /usr/local/bin \
     done <  <(find "/usr/local/share/go/bin" -type f -print0) 
 

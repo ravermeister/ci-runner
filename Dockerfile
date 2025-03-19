@@ -38,7 +38,7 @@ RUN set -eux; \
     && apt-get update -q \
     # install Docker CE Client
     && apt-get install -yq --no-install-recommends \
-        docker-ce-cli 
+        docker-ce-cli \
     # clean APT
     && apt-get -yq clean \
     && rm -rf /var/lib/apt/lists/* \    

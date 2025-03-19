@@ -39,13 +39,12 @@ manifest:
   needs:
     - create_arm64
     - create_amd64
-  variables:
-    DOCKER_TAGS: |
-      latest 
-      forgejo-$FORGEJO_VERSION      
-      gitlab-$GITLAB_VERSION      
-      woodpecker-$WOODPECKER_VERSION
   script:
+    - |
+      DOCKER_TAGS="latest"
+      DOCKER_TAGS="$DOCKER_TAGS forgejo-$FORGEJO_VERSION"
+      DOCKER_TAGS="$DOCKER_TAGS gitlab-$GITLAB_VERDION"
+      DOCKER_TAGS="$DOCKER_TAGS woodpecker-$WOODPECKER_VERSION"
     - |
       for tag in $(printf "$DOCKER_TAGS" | xargs); do
         printf "creating tag %s\n" "${CI_REGISTRY_BUILD_IMAGE_NAME}:${tag}"

@@ -16,8 +16,7 @@
 
 # create image template
 .create:
-  before_script:
-    - set -eux
+  before_script:    
     - printf "Loading environment variables from ${DOCKER_ENV_FILE} file\n"
     - export $(grep -v '^[[:space:]]*#' ${DOCKER_ENV_FILE} | xargs)    
     - |    

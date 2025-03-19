@@ -15,7 +15,7 @@ ARG FORGEJO_VERSION=6.2.2
 ARG WOODPECKER_VERSION=3.4.0
 ARG GO_VERSION=1.24.1
 ADD --chmod=755 https://code.forgejo.org/forgejo/runner/releases/download/v${FORGEJO_VERSION}/forgejo-runner-${FORGEJO_VERSION}-linux-arm64 /usr/local/bin/forgejo-runner
-ADD https://github.com/woodpecker-ci/woodpecker/releases/download/v${WOODPECKER_VERSION}/woodpecker-agent_linux_amd64.tar.gz /tmp/tools/woodpecker-agent.tar.gz
+ADD https://github.com/woodpecker-ci/woodpecker/releases/download/v${WOODPECKER_VERSION}/woodpecker-agent_linux_arm64.tar.gz /tmp/tools/woodpecker-agent.tar.gz
 ADD https://go.dev/dl/go${GO_VERSION}.linux-arm64.tar.gz /tmp/tools/go.tar.gz
 
 COPY --chmod=755 assets/ci-runner /usr/local/bin/

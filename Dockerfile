@@ -10,7 +10,7 @@ RUN set -eux; \
     && apt-get dist-upgrade -yq --no-install-recommends \
     # Install Dependencies
     && apt-get install -yq --no-install-recommends \
-        ca-certificates curl nodejs npm nano
+        ca-certificates curl nodejs npm nano \
     # Add the Docker CE repository to Apt sources
     &&  echo \
           "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \

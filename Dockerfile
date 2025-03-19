@@ -54,7 +54,7 @@ RUN \
     tar -C /usr/local/share -xzf /tmp/tools/go.tar.gz \
     && while IFS= read -r -d '' file; do \
     	ln -s "$file" /usr/local/bin \
-    done <  <(find "$1" -type f -print0) \
+    done <  <(find "/usr/local/share/go/bin" -type f -print0) \
     && tar -C /usr/local/bin -xzf /tmp/tools/woodpecker-agent.tar.gz \
     && rm -rf /tmp/tools
 

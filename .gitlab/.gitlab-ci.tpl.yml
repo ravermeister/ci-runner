@@ -4,6 +4,8 @@
   variables:
     BUILDX_ARCHITECTURE: linux-amd64
     DOCKER_CREDENTIAL_HELPER_ARCHITECTURE: linux-amd64
+    DOCKER_TARGET_PLATFORM: linux/amd64
+    DOCKER_TARGET_IMAGE_TAG: amd64
   tags: []
 
 # arm64 env template
@@ -12,9 +14,27 @@
   variables:
     BUILDX_ARCHITECTURE: linux-arm64
     DOCKER_CREDENTIAL_HELPER_ARCHITECTURE: linux-arm64
+    DOCKER_TARGET_PLATFORM: linux/arm64
+    DOCKER_TARGET_IMAGE_TAG: arm64
   tags:
     - arm64
     - docker
+
+# create image template
+.create:
+  script:
+    - echo "build Forgejo Runner Version $FORGEJO_VERSION"
+    - >
+      docker buildx build --no-cache --force-rm --compress --load \
+        --platform "$DOCKER_TARGET_PLATFORM" \
+        --build-arg FORGEJO_VERSION=$FORGEJO_VERSION \
+        --build-arg WOODPECKER_VERSION=$WOODPECKER_VERSION \
+        --build-arg GO_VERSION=$GO_VERSION \
+        --target forgejo-runner-arm64 \
+        -t "${IMAGE_NAME}" \
+        -t "${CI_REGISTRY_IMAGE}:${DOCKER_TARGET_IMAGE_TAG}" \
+        .
+    - docker push "${CI_REGISTRY_IMAGE}:${DOCKER_TARGET_IMAGE_TAG}"
 
 # docker in docker template
 .dind:

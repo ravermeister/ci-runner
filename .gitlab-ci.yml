@@ -18,12 +18,22 @@ variables:
 
 include:
   - local: .gitlab/.gitlab-ci.tpl.yml
-  - local: .gitlab/.gitlab-ci.arm64.yml
-  - local: .gitlab/.gitlab-ci.amd64.yml
 
 stages:
-  - create
+  - build
   - release
+
+create_arm64:
+  stage: build
+  extends:
+    - .arm64
+    - .create
+
+create_amd64:
+  stage: build
+  extends:
+    - .amd64
+    - .create
 
 manifest:
   stage: release

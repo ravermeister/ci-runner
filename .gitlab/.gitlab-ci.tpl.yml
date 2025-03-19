@@ -17,25 +17,26 @@
 # create image template
 .create:
   before_script:
-    - printf "Loading environment variables from ${DOCKER_ENV_FILE} file"    
+    - set -eux
+    - printf "Loading environment variables from ${DOCKER_ENV_FILE} file\n"
     - export $(grep -v '^[[:space:]]*#' ${DOCKER_ENV_FILE} | xargs)    
     - |    
       printf "building environment:\n"
-      printf "\t%s: %s\n" "BUILDX_ARCHITECTURE" "$BUILDX_ARCHITECTURE"
-      printf "\t%s: %s\n" "DOCKER_CREDENTIAL_HELPER_ARCHITECTURE" "$DOCKER_CREDENTIAL_HELPER_ARCHITECTURE"
-      printf "\t%s: %s\n" "DOCKER_PLATFORM" "$DOCKER_PLATFORM"
-      printf "\t%s: %s\n" "DOCKER_BASE_IMAGE" "$DOCKER_BASE_IMAGE"
-      printf "\t%s: %s\n" "DOCKER_BUILD_TARGET" "$DOCKER_BUILD_TARGET"      
-      printf "\t%s: %s\n" "FORGEJO_ARCH" "$FORGEJO_ARCH"
-      printf "\t%s: %s\n" "WOODPECKER_ARCH" "$WOODPECKER_ARCH"
-      printf "\t%s: %s\n" "GITLAB_ARCH" "$GITLAB_ARCH"
-      printf "\t%s: %s\n" "GO_ARCH" "$GO_ARCH"
+      printf " %s: %s\n" "BUILDX_ARCHITECTURE" "$BUILDX_ARCHITECTURE"
+      printf " %s: %s\n" "DOCKER_CREDENTIAL_HELPER_ARCHITECTURE" "$DOCKER_CREDENTIAL_HELPER_ARCHITECTURE"
+      printf " %s: %s\n" "DOCKER_PLATFORM" "$DOCKER_PLATFORM"
+      printf " %s: %s\n" "DOCKER_BASE_IMAGE" "$DOCKER_BASE_IMAGE"
+      printf " %s: %s\n" "DOCKER_BUILD_TARGET" "$DOCKER_BUILD_TARGET"      
+      printf " %s: %s\n" "FORGEJO_ARCH" "$FORGEJO_ARCH"
+      printf " %s: %s\n" "WOODPECKER_ARCH" "$WOODPECKER_ARCH"
+      printf " %s: %s\n" "GITLAB_ARCH" "$GITLAB_ARCH"
+      printf " %s: %s\n" "GO_ARCH" "$GO_ARCH"
 
       printf "building runner Versions:\n"
-      printf "\t%s: %s\n" "Forgejo Runner" "$FORGEJO_VERSION"
-      printf "\t%s: %s\n" "Woodpecker Agent" "$WOODPECKER_VERSION"
-      printf "\t%s: %s\n" "Gitlab Runner" "$GITLAB_VERSION"
-      printf "\t%s: %s\n" "Go Version" "$GO_VERSION"
+      printf " %s: %s\n" "Forgejo Runner" "$FORGEJO_VERSION"
+      printf " %s: %s\n" "Woodpecker Agent" "$WOODPECKER_VERSION"
+      printf " %s: %s\n" "Gitlab Runner" "$GITLAB_VERSION"
+      printf " %s: %s\n" "Go Version" "$GO_VERSION"
 
 
     

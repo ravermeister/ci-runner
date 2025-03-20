@@ -47,8 +47,8 @@
       export $(grep -v '^[[:space:]]*#' ${DOCKER_ENV_FILE} | xargs)    
       printf "Loading environment variables from ${DOCKER_ENV_FILE} file\n"
       printf "building environment:\n"
-      printf " %s: %s\n" "DOCKER_BUILDX_ARCHITECTURE" "$DOCKER_BUILDX_ARCHITECTURE"
-      printf " %s: %s\n" "DOCKER_CREDENTIAL_HELPER_ARCHITECTURE" "$DOCKER_CREDENTIAL_HELPER_ARCHITECTURE"
+      printf " %s: %s\n" "DOCKER_BUILDX_ARCH" "$DOCKER_BUILDX_ARCH"
+      printf " %s: %s\n" "DOCKER_CREDENTIAL_HELPER_ARCH" "$DOCKER_CREDENTIAL_HELPER_ARCH"
       printf " %s: %s\n" "DOCKER_PLATFORM" "$DOCKER_PLATFORM"
       printf " %s: %s\n" "DOCKER_BASE_IMAGE" "$DOCKER_BASE_IMAGE"      
       printf " %s: %s\n" "DOCKER_BUILD_IMAGE_NAME" "$DOCKER_BUILD_IMAGE_NAME"
@@ -67,10 +67,10 @@
     - apk add --no-cache make bash curl libsecret pass gpg-agent openssh-client
     - .gitlab/docker-credential-init.sh "${GPG_USER}" "${GPG_MAIL}"
     - mkdir -p ~/.docker/cli-plugins
-    - curl -sSLo ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/$DOCKER_BUILDX_VERSION/buildx-$DOCKER_BUILDX_VERSION.$DOCKER_BUILDX_ARCHITECTURE
+    - curl -sSLo ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/v$DOCKER_BUILDX_VERSION/buildx-v$DOCKER_BUILDX_VERSION.$DOCKER_BUILDX_ARCH
     - chmod +x ~/.docker/cli-plugins/docker-buildx
     - mkdir -p /usr/local/bin
-    - curl -sSLo /usr/local/bin/docker-credential-pass https://github.com/docker/docker-credential-helpers/releases/download/$DOCKER_CREDENTIAL_HELPER_VERSION/docker-credential-pass-$DOCKER_CREDENTIAL_HELPER_VERSION.$DOCKER_CREDENTIAL_HELPER_ARCHITECTURE
+    - curl -sSLo /usr/local/bin/docker-credential-pass https://github.com/docker/docker-credential-helpers/releases/download/$DOCKER_CREDENTIAL_HELPER_VERSION/docker-credential-pass-$DOCKER_CREDENTIAL_HELPER_VERSION.$DOCKER_CREDENTIAL_HELPER_ARCH
     - chmod +x /usr/local/bin/docker-credential-pass
     - docker context create tls-environment >/dev/null
     - docker buildx create --use tls-environment >/dev/null

@@ -6,6 +6,8 @@ ARG FORGEJO_VERSION=6.2.2
 ARG WOODPECKER_VERSION=3.4.0
 ARG GITLAB_VERSION=17.9.1
 ARG GO_VERSION=1.24.1
+ARG DOCKER_BUILDX_VERSION=0.22.0
+
 # linux-arm64 or linux-amd64
 ARG FORGEJO_ARCH=linux-amd64
 # linux-arm or linux-amd64
@@ -14,6 +16,8 @@ ARG GITLAB_ARCH=linux-arm
 ARG WOODPECKER_ARCH=linux_arm64
 # linux-arm64 or linux-amd64
 ARG GO_ARCH=linux-arm64
+# linux-arm64 or linux-amd64
+ARG DOCKER_BUILDX_ARCH=linux-amd64
 
 SHELL ["/bin/sh", "-c"]
 ENV LANG=C.UTF-8
@@ -35,7 +39,7 @@ RUN set -eux; \
           $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
           tee /etc/apt/sources.list.d/docker.list > /dev/null \
     # Add the git-lfs repos
-    && curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash \
+    && curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash \
     && apt-get update -q \
     # install Docker CE Client and git-lfs
     && apt-get install -yq --no-install-recommends \
@@ -54,6 +58,7 @@ RUN set -eux; \
 
 ADD --chmod=755 https://code.forgejo.org/forgejo/runner/releases/download/v${FORGEJO_VERSION}/forgejo-runner-${FORGEJO_VERSION}-${FORGEJO_ARCH} /usr/local/bin/forgejo-runner
 ADD --chmod=755 https://gitlab-runner-downloads.s3.amazonaws.com/v${GITLAB_VERSION}/binaries/gitlab-runner-${GITLAB_ARCH} /usr/local/bin/gitlab-runner
+ADD --chmod=755 https://github.com/docker/buildx/releases/download/v${DOCKER_BUILDX_VERSION}/buildx-v${DOCKER_BUILDX_VERSION}.${DOCKER_BUILDX_ARCH} /root/.docker/cli-plugins/docker-buildx
 ADD https://github.com/woodpecker-ci/woodpecker/releases/download/v${WOODPECKER_VERSION}/woodpecker-agent_${WOODPECKER_ARCH}.tar.gz /tmp/tools/woodpecker-agent.tar.gz
 ADD https://go.dev/dl/go${GO_VERSION}.${GO_ARCH}.tar.gz /tmp/tools/go.tar.gz
 COPY --chmod=755 assets/ci-runner /usr/local/bin/

@@ -4,12 +4,14 @@ services:
     hostname: docker
     privileged: true
     restart: unless-stopped
-    command: ['dockerd', '-H', 'tcp://0.0.0.0:2375', '--tls=false']
+    command: ['dockerd', '-H', 'tcp://0.0.0.0:2375', '-H', 'unix:///var/run/docker/docker.sock', '--tls=false']
     healthcheck:
       test: ["CMD", "docker", "-H", "tcp://docker:2375", "info"]
       interval: 3s
       timeout: 2s
       retries: 10
+    volumes:
+      - /etc/ci-runner/docker/run:/var/run/docker
   forgejo:
     image: docker.io/ravermeister/ci-runner
     hostname: forgejo
@@ -17,9 +19,32 @@ services:
     depends_on:
       docker:
         condition: service_healthy
+    environment:
+      CI_RUNNER: forgejo
     volumes:
-      - /etc/forgejo/runner.cfg:/root/.runner
-      - /etc/forgejo/config.yml:/etc/forgejo.yml
-      - /data/forgejo-runner/cache:/root/.cache/actcache
-      - /data/forgejo-runner/host/parent:/root/.cache/act
-      - /data/forgejo-runner/docker/parent:/workspace
+      - /etc/ci-runner/forgejo/runner.cfg:/root/.runner
+      - /etc/ci-runner/forgejo/config.yml:/etc/forgejo.yml
+      - /media/ci-runner/forgejo/cache:/root/.cache/actcache
+      - /media/ci-runner/forgejo/host:/root/.cache/act
+      - /media/ci-runner/forgejo/docker:/workspace
+  woodpecker:
+    image: docker.io/ravermeister/ci-runner
+    hostname: woodpecker
+    restart: unless-stopped
+    # FIXME: how can we can get rid of this 'network_mode', sothat the 'docker' host is reachable from here?
+    network_mode: bridge
+    depends_on:
+      docker:
+        condition: service_healthy
+    environment:
+      CI_RUNNER: woodpecker
+      WOODPECKER_SERVER: woodpecker-grpc.codeberg.org
+      WOODPECKER_AGENT_SECRET_FILE: /etc/woodpecker/codeberg.secret
+      WOODPECKER_GRPC_SECURE: true
+      WOODPECKER_HEALTHCHECK: false
+      WOODPECKER_BACKEND: docker
+      WOODPECKER_HOSTNAME: woodpecker
+    volumes:
+      - /etc/ci-runner/woodpecker:/etc/woodpecker
+      - /etc/ci-runner/docker/run/docker.sock:/var/run/docker.sock
+      - /media/ci-runner/woodpecker/tmp:/root/woodpecker/tmp

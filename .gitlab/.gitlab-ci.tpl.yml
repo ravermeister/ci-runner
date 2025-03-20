@@ -46,6 +46,14 @@
     - |
       export $(grep -v '^[[:space:]]*#' ${DOCKER_ENV_FILE} | xargs)    
       printf "Loading environment variables from ${DOCKER_ENV_FILE} file\n"
+      
+      printf "building Versions:\n"
+      printf " %s: %s\n" "DOCKER_BUILDX_VERSION" "$DOCKER_BUILDX_VERSION"
+      printf " %s: %s\n" "Forgejo Runner" "$FORGEJO_VERSION"
+      printf " %s: %s\n" "Woodpecker Agent" "$WOODPECKER_VERSION"
+      printf " %s: %s\n" "Gitlab Runner" "$GITLAB_VERSION"
+      printf " %s: %s\n" "Go Version" "$GO_VERSION"
+
       printf "building environment:\n"
       printf " %s: %s\n" "DOCKER_BUILDX_ARCH" "$DOCKER_BUILDX_ARCH"
       printf " %s: %s\n" "DOCKER_CREDENTIAL_HELPER_ARCH" "$DOCKER_CREDENTIAL_HELPER_ARCH"
@@ -57,12 +65,6 @@
       printf " %s: %s\n" "WOODPECKER_ARCH" "$WOODPECKER_ARCH"
       printf " %s: %s\n" "GITLAB_ARCH" "$GITLAB_ARCH"
       printf " %s: %s\n" "GO_ARCH" "$GO_ARCH"
-
-      printf "building runner Versions:\n"
-      printf " %s: %s\n" "Forgejo Runner" "$FORGEJO_VERSION"
-      printf " %s: %s\n" "Woodpecker Agent" "$WOODPECKER_VERSION"
-      printf " %s: %s\n" "Gitlab Runner" "$GITLAB_VERSION"
-      printf " %s: %s\n" "Go Version" "$GO_VERSION"
 
     - apk add --no-cache make bash curl libsecret pass gpg-agent openssh-client
     - .gitlab/docker-credential-init.sh "${GPG_USER}" "${GPG_MAIL}"

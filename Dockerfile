@@ -43,21 +43,18 @@ RUN set -eux; \
     && rm -rf /var/lib/apt/lists/* \
     # Remove MOTD
     && rm -rf /etc/update-motd.d /etc/motd /etc/motd.dynamic \
-    && ln -fs /dev/null /run/motd.dynamic
+    && ln -fs /dev/null /run/motd.dynamic \
+    # install tools
+    && tar -C /usr/local/share -xzf /tmp/tools/go.tar.gz \
+    && find /usr/local/share/go/bin -type f -exec ln -s {} /usr/local/bin \; \
+    && tar -C /usr/local/bin -xzf /tmp/tools/woodpecker-agent.tar.gz \
+    && rm -rf /tmp/tools
 
 ADD --chmod=755 https://code.forgejo.org/forgejo/runner/releases/download/v${FORGEJO_VERSION}/forgejo-runner-${FORGEJO_VERSION}-${FORGEJO_ARCH} /usr/local/bin/forgejo-runner
 ADD --chmod=755 https://gitlab-runner-downloads.s3.amazonaws.com/v${GITLAB_VERSION}/binaries/gitlab-runner-${GITLAB_ARCH} /usr/local/bin/gitlab-runner
 ADD https://github.com/woodpecker-ci/woodpecker/releases/download/v${WOODPECKER_VERSION}/woodpecker-agent_${WOODPECKER_ARCH}.tar.gz /tmp/tools/woodpecker-agent.tar.gz
 ADD https://go.dev/dl/go${GO_VERSION}.${GO_ARCH}.tar.gz /tmp/tools/go.tar.gz
 COPY --chmod=755 assets/ci-runner /usr/local/bin/
-SHELL ["/bin/bash"]
-RUN \
-    tar -C /usr/local/share -xzf /tmp/tools/go.tar.gz \
-    && tar -C /usr/local/bin -xzf /tmp/tools/woodpecker-agent.tar.gz \
-    && rm -rf /tmp/tools \
-    && while IFS= read -r -d '' file; do \
-        ln -s "$file" /usr/local/bin \
-    done <  <(find "/usr/local/share/go/bin" -type f -print0) 
 
 ENV CI_RUNNER="forgejo"
 WORKDIR /root

@@ -25,7 +25,7 @@ RUN set -eux; \
     && apt-get dist-upgrade -yq --no-install-recommends \
     # Install Dependencies
     && apt-get install -yq --no-install-recommends \
-        ca-certificates curl nodejs npm nano \
+        ca-certificates curl nodejs npm nano git  \
     # Add the Docker CE repository to Apt sources
     && install -m 0755 -d /etc/apt/keyrings \
     && curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc \
@@ -34,10 +34,12 @@ RUN set -eux; \
           "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
           $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
           tee /etc/apt/sources.list.d/docker.list > /dev/null \
+    # Add the git-lfs repos
+    && curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash \
     && apt-get update -q \
-    # install Docker CE Client
+    # install Docker CE Client and git-lfs
     && apt-get install -yq --no-install-recommends \
-        docker-ce-cli docker-buildx-plugin docker-compose-plugin \
+        docker-ce-cli docker-buildx-plugin docker-compose-plugin git-lfs \
     # clean APT
     && apt-get -yq clean \
     && rm -rf /var/lib/apt/lists/* \

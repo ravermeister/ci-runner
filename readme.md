@@ -18,6 +18,9 @@ This Container includes multiple CI Runners and additional Tools.
 - node
 - go
 - docker-ce-cli
+- docker-buildx
+- git
+- git-lfs
 
 ## How to run
 
@@ -37,7 +40,7 @@ you can use the [docker-compose](https://gitlab.rimkus.it/development/ci-runner/
 of how to run this image. 
 
 ### configure woodkpecker-agent
-_TODO_
+see the [Docker Compose](https://gitlab.rimkus.it/development/ci-runner/-/raw/main/docker-compose.yml?ref_type=heads) for now
 
 ### configure gitlab-runner
 _TODO_

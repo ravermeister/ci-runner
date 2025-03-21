@@ -40,7 +40,7 @@ you can use the [docker-compose](https://gitlab.rimkus.it/development/ci-runner/
 of how to run this image. 
 
 ### configure woodkpecker-agent
-see the [Docker Compose](https://gitlab.rimkus.it/development/ci-runner/-/raw/main/docker-compose.yml?ref_type=heads) for now
+see the [Docker Compose](https://gitlab.rimkus.it/development/ci-runner/-/blob/main/docker-compose.yml?ref_type=heads) for now
 
 ### configure gitlab-runner
 _TODO_

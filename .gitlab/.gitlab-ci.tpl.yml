@@ -46,7 +46,10 @@
       command: ["--experimental"]
   before_script:
     - |
-      printf "Loading environment variables from ${DOCKER_ARCH_ENV_FILE} file\n"
+      printf "Loading version environment variables from ${DOCKER_VERSION_ENV_FILE} file\n"
+      export $(grep -v '^[[:space:]]*#' ${DOCKER_VERSION_ENV_FILE} | xargs)
+
+      printf "Loading architecture environment variables from ${DOCKER_ARCH_ENV_FILE} file\n"
       export $(grep -v '^[[:space:]]*#' ${DOCKER_ARCH_ENV_FILE} | xargs)
       
       printf "building Versions:\n"

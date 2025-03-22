@@ -49,7 +49,7 @@ RUN set -eux; \
     && curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash \
     && apt-get update -q \
     # Add the gitlab-runner repos
-    && curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash \
+    && curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | bash \
     # Install
     ## Docker CE Client
     ## git-lfs \

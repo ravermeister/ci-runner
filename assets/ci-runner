@@ -3,18 +3,17 @@
 start_container() {
 	case "$CI_RUNNER" in
 		"woodpecker")
-			woodpecker-agent
+			woodpecker-agent "$@"
 		;;
 		"gitlab")
-			printf "gitlab start not yet implemented" >&2
+			gitlab-runner "$@"
 			exit 1
 		;;
 		*)
-			forgejo-runner -c /etc/forgejo.yml daemon
+			forgejo-runner "$@"
 		;;
 	esac
 }
-
 usage() {
 	BASE_NAME="$(basename "$0")"
 	printf "%s\t%s\t%s\n" "${BASE_NAME}" "run" "starts the [forgejo-runner|woodpecker-agent|gitlab-runner]"
@@ -24,7 +23,8 @@ usage() {
 
 case $1 in
 	run)
-		start_container
+		shift
+		start_container "$@"
 	;;
 	*)
 		usage

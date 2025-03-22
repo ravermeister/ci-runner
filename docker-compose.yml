@@ -4,14 +4,19 @@ services:
     hostname: docker
     privileged: true
     restart: unless-stopped
-    command: ['dockerd', '-H', 'tcp://0.0.0.0:2375', '-H', 'unix:///var/run/docker/docker.sock', '--tls=false']
+    command: [ 'dockerd', '-H', 'tcp://0.0.0.0:2375', '-H', 'unix:///var/run/docker/docker.sock', '--tls=false' ]
     healthcheck:
-      test: ["CMD", "docker", "-H", "tcp://docker:2375", "info"]
+      test: [ "CMD", "docker", "-H", "tcp://docker:2375", "info" ]
       interval: 3s
       timeout: 2s
       retries: 10
     volumes:
-      - /etc/ci-runner/docker/run:/var/run/docker
+      - type: bind
+        source: /media/usb/ci-docker/run
+        target: /var/run/docker
+      - type: bind
+        source: /media/usb/ci-docker/lib
+        target: /var/lib/docker
   forgejo:
     image: docker.io/ravermeister/ci-runner
     hostname: forgejo
@@ -21,12 +26,22 @@ services:
         condition: service_healthy
     environment:
       CI_RUNNER: forgejo
+    command:
+      - "-c"
+      - "/etc/forgejo.yml"
+      - "daemon"
     volumes:
       - /etc/ci-runner/forgejo/runner.cfg:/root/.runner
       - /etc/ci-runner/forgejo/config.yml:/etc/forgejo.yml
-      - /media/ci-runner/forgejo/cache:/root/.cache/actcache
-      - /media/ci-runner/forgejo/host:/root/.cache/act
-      - /media/ci-runner/forgejo/docker:/workspace
+      - type: bind
+        source: /media/usb/ci-runner/forgejo/cache
+        target: /root/.cache/actcache
+      - type: bind
+        source: /media/usb/ci-runner/forgejo/host
+        target: /root/.cache/act
+      - type: bind
+        source: /media/usb/ci-runner/forgejo/docker
+        target: /workspace
   woodpecker:
     image: docker.io/ravermeister/ci-runner
     hostname: woodpecker
@@ -44,7 +59,11 @@ services:
       WOODPECKER_HEALTHCHECK: false
       WOODPECKER_BACKEND: docker
       WOODPECKER_HOSTNAME: woodpecker
+      WOODPECKER_AGENT_LABELS: owner=raver
+      WOODPECKER_MAX_WORKFLOWS: 2
     volumes:
       - /etc/ci-runner/woodpecker:/etc/woodpecker
-      - /etc/ci-runner/docker/run/docker.sock:/var/run/docker.sock
-      - /media/ci-runner/woodpecker/tmp:/root/woodpecker/tmp
+      - /media/usb/ci-docker/run/docker.sock:/var/run/docker.sock
+      - /media/usb/ci-docker/run/metrics.sock:/var/run/metrics.sock
+      #      - /var/run/docker.sock:/var/run/docker.sock
+      - /media/usb/ci-runner/woodpecker/tmp:/root/woodpecker/tmp

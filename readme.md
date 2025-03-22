@@ -43,4 +43,11 @@ of how to run this image.
 see the [Docker Compose](https://gitlab.rimkus.it/development/ci-runner/-/blob/main/docker-compose.yml?ref_type=heads) for now
 
 ### configure gitlab-runner
-_TODO_
+See the general [Documentation](https://docs.gitlab.com/runner/register/) how to Register a runner.
+Prefix the given command with the container from docker-compose:
+before using this image you have to generate a `config.yml`
+```bash
+wget -qO docker-compose.yml https://gitlab.rimkus.it/development/ci-runner/-/raw/main/docker-compose.yml?ref_type=heads
+docker-compose pull
+docker-compose run -it --entrypoint gitlab-runner ci-runner register
+```

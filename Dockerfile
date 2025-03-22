@@ -21,7 +21,6 @@ ARG DOCKER_BUILDX_ARCH=linux-amd64
 
 # add packages
 ADD --chmod=755 https://code.forgejo.org/forgejo/runner/releases/download/v${FORGEJO_VERSION}/forgejo-runner-${FORGEJO_VERSION}-${FORGEJO_ARCH} /usr/local/bin/forgejo-runner
-ADD --chmod=755 https://gitlab-runner-downloads.s3.amazonaws.com/v${GITLAB_VERSION}/binaries/gitlab-runner-${GITLAB_ARCH} /usr/local/bin/gitlab-runner
 ADD --chmod=755 https://github.com/docker/buildx/releases/download/v${DOCKER_BUILDX_VERSION}/buildx-v${DOCKER_BUILDX_VERSION}.${DOCKER_BUILDX_ARCH} /root/.docker/cli-plugins/docker-buildx
 ADD https://github.com/woodpecker-ci/woodpecker/releases/download/v${WOODPECKER_VERSION}/woodpecker-agent_${WOODPECKER_ARCH}.tar.gz /tmp/tools/woodpecker-agent.tar.gz
 ADD https://go.dev/dl/go${GO_VERSION}.${GO_ARCH}.tar.gz /tmp/tools/go.tar.gz
@@ -49,9 +48,19 @@ RUN set -eux; \
     # Add the git-lfs repos
     && curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash \
     && apt-get update -q \
-    # install Docker CE Client and git-lfs
+    # Add the gitlab-runner repos
+    && curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash \
+    # Install
+    ## Docker CE Client
+    ## git-lfs \
+    ## gitlab-runner
     && apt-get install -yq --no-install-recommends \
-        docker-ce-cli docker-buildx-plugin docker-compose-plugin git-lfs \
+        docker-ce-cli \
+        docker-buildx-plugin  \
+        docker-compose-plugin  \
+        git-lfs \
+        gitlab-runner=$GITLAB_VERSION  \
+        gitlab-runner-helper-images=$GITLAB_VERSION \
     # clean APT
     && apt-get -yq clean \
     && rm -rf /var/lib/apt/lists/* \

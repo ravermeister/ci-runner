@@ -2,7 +2,8 @@
 .amd64:
   extends: .dind
   variables:
-    DOCKER_ENV_FILE: .env/amd64.env    
+    DOCKER_ARCH_ENV_FILE: .env/amd64.env
+    DOCKER_VERSION_ENV_FILE: .env/versions.env 
     DOCKER_BUILD_IMAGE_TAG: ${DOCKER_BUILD_IMAGE_TAG_AMD64}
   tags: []
 
@@ -10,7 +11,8 @@
 .arm64:
   extends: .dind
   variables:
-    DOCKER_ENV_FILE: .env/arm64.env
+    DOCKER_ARCH_ENV_FILE: .env/arm64.env
+    DOCKER_VERSION_ENV_FILE: .env/versions.env
     DOCKER_BUILD_IMAGE_TAG: ${DOCKER_BUILD_IMAGE_TAG_ARM64}
   tags:
     - arm64
@@ -44,8 +46,8 @@
       command: ["--experimental"]
   before_script:
     - |
-      export $(grep -v '^[[:space:]]*#' ${DOCKER_ENV_FILE} | xargs)    
-      printf "Loading environment variables from ${DOCKER_ENV_FILE} file\n"
+      export $(grep -v '^[[:space:]]*#' ${DOCKER_ARCH_ENV_FILE} | xargs)    
+      printf "Loading environment variables from ${DOCKER_ARCH_ENV_FILE} file\n"
       
       printf "building Versions:\n"
       printf " %s: %s\n" "DOCKER_BUILDX_VERSION" "$DOCKER_BUILDX_VERSION"

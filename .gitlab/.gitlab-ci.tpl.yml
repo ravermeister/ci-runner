@@ -54,6 +54,7 @@
       
       printf "building Versions:\n"
       printf " %s: %s\n" "DOCKER_BUILDX_VERSION" "$DOCKER_BUILDX_VERSION"
+      printf " %s: %s\n" "DOCKER_CREDENTIAL_HELPER_VERSION" "$DOCKER_CREDENTIAL_HELPER_VERSION"
       printf " %s: %s\n" "Forgejo Runner" "$FORGEJO_VERSION"
       printf " %s: %s\n" "Woodpecker Agent" "$WOODPECKER_VERSION"
       printf " %s: %s\n" "Gitlab Runner" "$GITLAB_VERSION"

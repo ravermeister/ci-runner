@@ -20,10 +20,10 @@ ARG GO_ARCH=linux-arm64
 ARG DOCKER_BUILDX_ARCH=linux-amd64
 
 # add packages
-ADD --chmod=755 https://code.forgejo.org/forgejo/runner/releases/download/v${FORGEJO_VERSION}/forgejo-runner-${FORGEJO_VERSION}-${FORGEJO_ARCH} /usr/local/bin/forgejo-runner
-ADD --chmod=755 https://github.com/docker/buildx/releases/download/v${DOCKER_BUILDX_VERSION}/buildx-v${DOCKER_BUILDX_VERSION}.${DOCKER_BUILDX_ARCH} /root/.docker/cli-plugins/docker-buildx
-ADD https://github.com/woodpecker-ci/woodpecker/releases/download/v${WOODPECKER_VERSION}/woodpecker-agent_${WOODPECKER_ARCH}.tar.gz /tmp/tools/woodpecker-agent.tar.gz
-ADD https://go.dev/dl/go${GO_VERSION}.${GO_ARCH}.tar.gz /tmp/tools/go.tar.gz
+ADD --chmod=755 https://code.forgejo.org/forgejo/runner/releases/download/${FORGEJO_VERSION}/forgejo-runner-${FORGEJO_VERSION}-${FORGEJO_ARCH} /usr/local/bin/forgejo-runner
+ADD --chmod=755 https://github.com/docker/buildx/releases/download/${DOCKER_BUILDX_VERSION}/buildx-${DOCKER_BUILDX_VERSION}.${DOCKER_BUILDX_ARCH} /root/.docker/cli-plugins/docker-buildx
+ADD https://github.com/woodpecker-ci/woodpecker/releases/download/${WOODPECKER_VERSION}/woodpecker-agent_${WOODPECKER_ARCH}.tar.gz /tmp/tools/woodpecker-agent.tar.gz
+ADD https://go.dev/dl/${GO_VERSION}.${GO_ARCH}.tar.gz /tmp/tools/go.tar.gz
 COPY --chmod=755 assets/ci-runner /usr/local/bin/
 
 SHELL ["/bin/sh", "-c"]

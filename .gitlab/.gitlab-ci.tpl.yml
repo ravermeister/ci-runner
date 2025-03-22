@@ -53,14 +53,14 @@
       export $(grep -v '^[[:space:]]*#' ${DOCKER_ARCH_ENV_FILE} | xargs)
       
       printf "building Versions:\n"
-      printf " %s: %s\n" "DOCKER_BUILDX_VERSION" "$DOCKER_BUILDX_VERSION"
-      printf " %s: %s\n" "DOCKER_CREDENTIAL_HELPER_VERSION" "$DOCKER_CREDENTIAL_HELPER_VERSION"
       printf " %s: %s\n" "Forgejo Runner" "$FORGEJO_VERSION"
       printf " %s: %s\n" "Woodpecker Agent" "$WOODPECKER_VERSION"
       printf " %s: %s\n" "Gitlab Runner" "$GITLAB_VERSION"
       printf " %s: %s\n" "Go Version" "$GO_VERSION"
 
       printf "building environment:\n"
+      printf " %s: %s\n" "DOCKER_BUILDX_VERSION" "$DOCKER_BUILDX_VERSION"
+      printf " %s: %s\n" "DOCKER_CREDENTIAL_HELPER_VERSION" "$DOCKER_CREDENTIAL_HELPER_VERSION"
       printf " %s: %s\n" "DOCKER_BUILDX_ARCH" "$DOCKER_BUILDX_ARCH"
       printf " %s: %s\n" "DOCKER_CREDENTIAL_HELPER_ARCH" "$DOCKER_CREDENTIAL_HELPER_ARCH"
       printf " %s: %s\n" "DOCKER_PLATFORM" "$DOCKER_PLATFORM"

@@ -75,10 +75,14 @@
     - apk add --no-cache make bash curl libsecret pass gpg-agent openssh-client
     - .gitlab/docker-credential-init.sh "${GPG_USER}" "${GPG_MAIL}"
     - mkdir -p ~/.docker/cli-plugins
-    - curl -sSLo ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/v$DOCKER_BUILDX_VERSION/buildx-v$DOCKER_BUILDX_VERSION.$DOCKER_BUILDX_ARCH
+    - |
+      curl -sSLo ~/.docker/cli-plugins/docker-buildx \
+        "https://github.com/docker/buildx/releases/download/v${DOCKER_BUILDX_VERSION}/buildx-v${DOCKER_BUILDX_VERSION}.${DOCKER_BUILDX_ARCH}"
     - chmod +x ~/.docker/cli-plugins/docker-buildx
     - mkdir -p /usr/local/bin
-    - curl -sSLo /usr/local/bin/docker-credential-pass https://github.com/docker/docker-credential-helpers/releases/download/$DOCKER_CREDENTIAL_HELPER_VERSION/docker-credential-pass-$DOCKER_CREDENTIAL_HELPER_VERSION.$DOCKER_CREDENTIAL_HELPER_ARCH
+    - |
+      curl -sSLo /usr/local/bin/docker-credential-pass \
+        "https://github.com/docker/docker-credential-helpers/releases/download/${DOCKER_CREDENTIAL_HELPER_VERSION}/docker-credential-pass-${DOCKER_CREDENTIAL_HELPER_VERSION}.${DOCKER_CREDENTIAL_HELPER_ARCH}"
     - chmod +x /usr/local/bin/docker-credential-pass
     - docker context create tls-environment >/dev/null
     - docker buildx create --use tls-environment >/dev/null

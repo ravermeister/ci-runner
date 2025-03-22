@@ -17,6 +17,30 @@ services:
       - type: bind
         source: /media/usb/ci-docker/lib
         target: /var/lib/docker
+  gitlab:
+    image: docker.io/ravermeister/ci-runner
+    hostname: gitlab
+    restart: unless-stopped
+    depends_on:
+      docker:
+        condition: service_healthy
+    environment:
+      CI_RUNNER: gitlab
+      DOCKER_HOST: tcp://docker:2375
+    command:
+      - "run"
+      - "--config"
+      - "/etc/gitlab-runner/config.toml"
+      - "--working-directory"
+      - "/opt/gitlab"
+    volumes:
+      - /etc/ci-runner/gitlab/config.toml:/etc/gitlab-runner/config.toml
+      - type: bind
+        source: /media/usb/ci-runner/gitlab/home
+        target: /opt/gitlab
+      - type: bind
+        source: /media/usb/ci-runner/gitlab/cache
+        target: /opt/cache
   forgejo:
     image: docker.io/ravermeister/ci-runner
     hostname: forgejo

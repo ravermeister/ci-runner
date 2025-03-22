@@ -48,5 +48,6 @@ Prefix the given command with the container from docker-compose:
 ```bash
 wget -qO docker-compose.yml https://gitlab.rimkus.it/development/ci-runner/-/raw/main/docker-compose.yml?ref_type=heads
 docker-compose pull
-docker-compose run -it --entrypoint gitlab-runner ci-runner register
+mkdir gitlab && touch gitlab/config.toml
+docker-compose run -it -v $(pwd)/gitlab:/etc/gitlab-runner --entrypoint gitlab-runner gitlab register
 ```

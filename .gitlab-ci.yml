@@ -42,9 +42,9 @@ manifest:
   script:
     - |
       DOCKER_TAGS="latest"
-      DOCKER_TAGS="$DOCKER_TAGS forgejo-$FORGEJO_VERSION"
-      DOCKER_TAGS="$DOCKER_TAGS gitlab-$GITLAB_VERSION"
-      DOCKER_TAGS="$DOCKER_TAGS woodpecker-$WOODPECKER_VERSION"
+      DOCKER_TAGS="$DOCKER_TAGS forgejo-${FORGEJO_VERSION}"
+      DOCKER_TAGS="$DOCKER_TAGS gitlab-${GITLAB_VERSION}"
+      DOCKER_TAGS="$DOCKER_TAGS woodpecker-${WOODPECKER_VERSION}"
     - |
       for tag in $(printf "$DOCKER_TAGS" | xargs); do
         printf "creating tag %s\n" "${CI_REGISTRY_BUILD_IMAGE_NAME}:${tag}"

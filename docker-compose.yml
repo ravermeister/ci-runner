@@ -4,9 +4,13 @@ services:
     hostname: docker
     privileged: true
     restart: unless-stopped
-    command: [ 'dockerd', '-H', 'tcp://0.0.0.0:2375', '-H', 'unix:///var/run/docker/docker.sock', '--tls=false' ]
+    command: [ 'dockerd', '--tls=false', '--storage-driver=overlay2', '-H', 'tcp://0.0.0.0:2375', '-H', 'unix:///var/run/docker/docker.sock' ]
     healthcheck:
-      test: [ "CMD", "docker", "-H", "tcp://docker:2375", "info" ]
+      test: [
+        "CMD", "test", "-S", "/var/run/docker/docker.sock",
+# FIXME: how can we combine these 2 checks?
+#        "CMD", "docker", "-H", "tcp://docker:2375", "info"
+      ]
       interval: 3s
       timeout: 2s
       retries: 10
@@ -26,7 +30,6 @@ services:
         condition: service_healthy
     environment:
       CI_RUNNER: gitlab
-      DOCKER_HOST: tcp://docker:2375
     command:
       - "run"
       - "--config"
@@ -34,7 +37,7 @@ services:
       - "--working-directory"
       - "/opt/gitlab"
     volumes:
-      - /etc/ci-runner/gitlab/config.toml:/etc/gitlab-runner/config.toml
+      - /etc/ci-runner/gitlab/:/etc/gitlab-runner
       - type: bind
         source: /media/usb/ci-runner/gitlab/home
         target: /opt/gitlab
@@ -89,5 +92,4 @@ services:
       - /etc/ci-runner/woodpecker:/etc/woodpecker
       - /media/usb/ci-docker/run/docker.sock:/var/run/docker.sock
       - /media/usb/ci-docker/run/metrics.sock:/var/run/metrics.sock
-      #      - /var/run/docker.sock:/var/run/docker.sock
       - /media/usb/ci-runner/woodpecker/tmp:/root/woodpecker/tmp

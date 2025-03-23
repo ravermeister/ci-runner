@@ -1,3 +1,54 @@
+services:
+  docker:
+    image: docker.io/docker:dind
+    hostname: docker
+    privileged: true
+    restart: unless-stopped
+    command: [
+      'dockerd', '--tls=false', '--storage-driver=overlay2',
+      '-H', 'tcp://0.0.0.0:2375',
+      '-H', 'unix:///var/run/docker/docker.sock'
+    ]
+    healthcheck:
+      test: [
+        "CMD-SHELL",
+        "docker -H tcp://docker:2375 info",
+        "&&",
+        "test -S /var/run/docker/docker.sock"
+      ]
+      interval: 3s
+      timeout: 2s
+      retries: 10
+    volumes:
+      - type: bind
+        source: /media/usb/ci-docker/run
+        target: /var/run/docker
+      - type: bind
+        source: /media/usb/ci-docker/lib
+        target: /var/lib/docker
+  gitlab:
+    image: docker.io/ravermeister/ci-runner
+    hostname: gitlab
+    restart: unless-stopped
+    depends_on:
+      docker:
+        condition: service_healthy
+    environment:
+      CI_RUNNER: gitlab
+    command:
+      - "run"
+      - "--config"
+      - "/etc/gitlab-runner/config.toml"
+      - "--working-directory"
+      - "/opt/gitlab"
+    volumes:
+      - /etc/ci-runner/gitlab/:/etc/gitlab-runner
+      - type: bind
+        source: /media/usb/ci-runner/gitlab/home
+        target: /opt/gitlab
+      - type: bind
+        source: /media/usb/ci-runner/gitlab/cache
+        target: /opt/cache
   forgejo:
     image: docker.io/ravermeister/ci-runner
     hostname: forgejo

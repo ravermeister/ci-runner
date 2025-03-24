@@ -8,6 +8,7 @@ This Container includes multiple CI Runners and additional Tools.
 - Docker
 
 ## Software included:
+See also the [versions.env](https://gitlab.rimkus.it/development/ci-runner/-/blob/main/.env/versions.env?ref_type=heads) for the Software.
 
 ### Runner
 - [Forgejo Runner](https://code.forgejo.org/forgejo/runner/releases) in `/usr/local/bin/forgejo-runner`

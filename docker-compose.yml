@@ -78,13 +78,15 @@ services:
     image: docker.io/ravermeister/ci-runner
     hostname: woodpecker
     restart: unless-stopped
-    # FIXME: how can we can get rid of this 'network_mode', sothat the 'docker' host is reachable from here?
+    # FIXME: on some docker setups this is required (armbian, but not raspbian)
+    #        why and how can we get rid of ths?
     network_mode: bridge
     depends_on:
       docker:
         condition: service_healthy
     environment:
       CI_RUNNER: woodpecker
+      DOCKER_HOST: unix:///var/run/docker/docker.sock
       WOODPECKER_SERVER: woodpecker-grpc.codeberg.org
       WOODPECKER_AGENT_SECRET_FILE: /etc/woodpecker/codeberg.secret
       WOODPECKER_GRPC_SECURE: true
@@ -95,6 +97,5 @@ services:
       WOODPECKER_MAX_WORKFLOWS: 2
     volumes:
       - /etc/ci-runner/woodpecker:/etc/woodpecker
-      - /media/usb/ci-docker/run/docker.sock:/var/run/docker.sock
-      - /media/usb/ci-docker/run/metrics.sock:/var/run/metrics.sock
+      - /media/usb/ci-docker/run:/var/run/docker
       - /media/usb/ci-runner/woodpecker/tmp:/root/woodpecker/tmp

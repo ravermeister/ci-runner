@@ -25,9 +25,11 @@ services:
       timeout: 2s
       retries: 10
     volumes:
+      # if you need the docker.sock somewhere
       - type: bind
         source: /media/usb/ci-docker/run
         target: /var/run/docker
+      # persistent docker data e.g. downloaded container images
       - type: bind
         source: /media/usb/ci-docker/lib
         target: /var/lib/docker

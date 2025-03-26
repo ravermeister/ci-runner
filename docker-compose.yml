@@ -9,7 +9,10 @@ services:
     command: [
       'dockerd', '--tls=false', '--storage-driver=overlay2',
       '-H', 'tcp://0.0.0.0:2375',
-      '-H', 'unix:///var/run/docker/docker.sock'
+      '-H', 'unix:///var/run/docker/docker.sock',
+      # if you use pihole, this could lead to dns issues, so we force to use quad9
+      # note, if you dont use ipv6 remove the last two dns server
+      '--dns=9.9.9.9', '--dns=149.112.112.112', '--dns=2620:fe::fe', '--dns=2620:fe::9'
     ]
     healthcheck:
       test: [
@@ -106,6 +109,7 @@ services:
 networks:
   ci-bridge-net:
     driver: bridge
-#    enable_ipv6: true
+    # disable if you do not have ipv6
+    enable_ipv6: true
     driver_opts:
       com.docker.network.bridge.name: ci-bridge-net

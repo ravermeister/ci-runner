@@ -32,6 +32,7 @@ start_woodpecker() {
 			source "$file"
 			set +o allexport
 
+			printf "using agent config %s\n" "$file"
 			# Run Woodpecker Agent
 			woodpecker-agent "$@" \
 				>/dev/stdout 2>/dev/stderr &

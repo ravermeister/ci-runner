@@ -61,6 +61,8 @@ start_container() {
 		;;
 		*)
 			forgejo-runner \
+				-c /etc/forgejo.yml \
+        daemon \
 				>/dev/stdout 2>/dev/stderr &
 			echo "$!" >>/run/ci-runner.pid
 		;;

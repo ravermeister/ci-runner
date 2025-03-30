@@ -11,7 +11,7 @@ services:
       '-H', 'tcp://0.0.0.0:2375',
       '-H', 'unix:///var/run/docker/docker.sock',
       # if you use pihole, this could lead to dns issues, so we force to use quad9
-      # note, if you dont use ipv6 remove the last two dns server
+      # note, if you don't use ipv6 remove the last two dns servers
       '--dns=9.9.9.9', '--dns=149.112.112.112', '--dns=2620:fe::fe', '--dns=2620:fe::9'
     ]
     healthcheck:
@@ -29,7 +29,7 @@ services:
       - type: bind
         source: /media/usb/ci-docker/run
         target: /var/run/docker
-      # persistent docker data e.g. downloaded container images
+      # persistent docker data, e.g., downloaded container images
       - type: bind
         source: /media/usb/ci-docker/lib
         target: /var/lib/docker

@@ -1,16 +1,54 @@
 #!/bin/bash
 
+## health functions
+
+health_check() {
+
+	if [ ! -s /run/ci-runner.pid ]; then
+		exit 1
+	fi
+
+	while IFS= read -r pid
+  do
+    if ! ps -p "$pid" > /dev/null; then
+    	exit 1
+    fi
+  done < <(grep -v '^ *#' /run/ci-runner.pid)
+}
+
+## start functions
+
+start_woodpecker() {
+
+	legacy_start="true"
+
+	if [ -d "/etc/woodpecker" ]; then
+		while IFS= read -r -d '' file; do
+			# shellcheck disable=SC1090
+			source "$file"
+			woodpecker-agent "$@" &
+			echo "$?" >>/run/ci-runner.pid
+		done <   <(find "/etc/woodpecker" -type f -name '*.agent' -print0)
+	fi
+
+	if [ "$legacy_start" == "true" ]; then
+		woodpecker-agent "$@" &
+		echo "$?" >>/run/ci-runner.pid
+	fi
+}
+
 start_container() {
 	case "$CI_RUNNER" in
 		"woodpecker")
-			woodpecker-agent "$@"
+			start_woodpecker "$@"
 		;;
 		"gitlab")
 			gitlab-runner "$@"
-			exit 1
+			echo "$?" >>/run/ci-runner.pid
 		;;
 		*)
 			forgejo-runner "$@"
+			echo "$?" >>/run/ci-runner.pid
 		;;
 	esac
 }
@@ -25,6 +63,10 @@ case $1 in
 	run)
 		shift
 		start_container "$@"
+	;;
+	health)
+		shift
+		check_health "$@"
 	;;
 	*)
 		usage

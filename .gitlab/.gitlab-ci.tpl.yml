@@ -56,7 +56,6 @@
       printf " %s: %s\n" "Forgejo Runner" "$FORGEJO_VERSION"
       printf " %s: %s\n" "Woodpecker Agent" "$WOODPECKER_VERSION"
       printf " %s: %s\n" "Gitlab Runner" "$GITLAB_VERSION"
-      printf " %s: %s\n" "Go Version" "$GO_VERSION"
 
       printf "building environment:\n"
       printf " %s: %s\n" "DOCKER_BUILDX_VERSION" "$DOCKER_BUILDX_VERSION"
@@ -70,7 +69,6 @@
       printf " %s: %s\n" "FORGEJO_ARCH" "$FORGEJO_ARCH"
       printf " %s: %s\n" "WOODPECKER_ARCH" "$WOODPECKER_ARCH"
       printf " %s: %s\n" "GITLAB_ARCH" "$GITLAB_ARCH"
-      printf " %s: %s\n" "GO_ARCH" "$GO_ARCH"
 
     - apk add --no-cache make bash curl libsecret pass gpg-agent openssh-client
     - .gitlab/docker-credential-init.sh "${GPG_USER}" "${GPG_MAIL}"

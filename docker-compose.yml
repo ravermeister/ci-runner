@@ -44,12 +44,6 @@ services:
         condition: service_healthy
     environment:
       CI_RUNNER: gitlab
-    command:
-      - "run"
-      - "--config"
-      - "/etc/gitlab-runner/config.toml"
-      - "--working-directory"
-      - "/opt/gitlab"
     volumes:
       - /etc/ci-runner/gitlab/:/etc/gitlab-runner
       - type: bind

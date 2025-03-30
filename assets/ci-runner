@@ -33,14 +33,14 @@ start_woodpecker() {
 			set +o allexport
 
 			# Run Woodpecker Agent
-			woodpecker-agent \
+			woodpecker-agent "$@" \
 				>/dev/stdout 2>/dev/stderr &
 			echo "$!" >>/run/ci-runner.pid
 		done <   <(find "/etc/woodpecker" -type f -name '*.agent' -print0)
 	fi
 
 	if [ "$legacy_start" == "true" ]; then
-		woodpecker-agent \
+		woodpecker-agent "$@" \
 			>/dev/stdout 2>/dev/stderr &
 		echo "$!" >>/run/ci-runner.pid
 	fi
@@ -52,16 +52,12 @@ start_container() {
 			start_woodpecker "$@"
 		;;
 		"gitlab")
-			gitlab-runner run \
-				--config /etc/gitlab-runner/config.toml \
-				--working-directory /opt/gitlab \
+			gitlab-runner "$@" \
 				>/dev/stdout 2>/dev/stderr &
 			echo "$!" >>/run/ci-runner.pid
 		;;
 		*)
-			forgejo-runner \
-				-c /etc/forgejo.yml \
-        daemon \
+			forgejo-runner "$@" \
 				>/dev/stdout 2>/dev/stderr &
 			echo "$!" >>/run/ci-runner.pid
 		;;

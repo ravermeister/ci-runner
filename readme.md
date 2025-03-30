@@ -29,7 +29,7 @@ Before starting, you have to configure a runner:
 
 ### configure forgejo-runner
 before using this image you have to generate a `config.yml`
-```bash
+```shell
 wget -qO docker-compose.yml https://gitlab.rimkus.it/development/ci-runner/-/raw/main/docker-compose.yml?ref_type=heads
 docker-compose pull
 docker-compose run -it --entrypoint ci-runner forgejo generate-config>config.yml
@@ -41,12 +41,43 @@ you can use the [docker-compose](https://gitlab.rimkus.it/development/ci-runner/
 of how to run this image. 
 
 ### configure woodpecker-agent
-see the [Docker Compose](https://gitlab.rimkus.it/development/ci-runner/-/blob/main/docker-compose.yml?ref_type=heads) for now
+If you only want to start a single agent, 
+use the `WOODPECKER_*` Environment Variables to configure the agent.
+See the [Docker Compose](https://gitlab.rimkus.it/development/ci-runner/-/blob/main/docker-compose.yml?ref_type=heads) 
 
+If you want several agents running within one Container:  
+create a config directory for woodpecker and add a file named `*.agent` for each agent.
+Add the `WOODPECKER_*` Variables into the file
+```
+WOODPECKER_SERVER=woodpecker-grpc.codeberg.org
+WOODPECKER_AGENT_SECRET=XXXXXXXXXXXXXXXXX
+WOODPECKER_GRPC_SECURE=true
+WOODPECKER_HEALTHCHECK=false
+WOODPECKER_BACKEND=docker
+WOODPECKER_HOSTNAME=woodpecker
+WOODPECKER_AGENT_LABELS=owner=raver
+WOODPECKER_MAX_WORKFLOWS=2
+```
+mount the config Directory into `/etc/woodpecker` e.g.:  
+```yaml
+  woodpecker:
+    image: docker.io/ravermeister/ci-runner
+    hostname: woodpecker
+    restart: unless-stopped
+    networks:
+      - ci-bridge-net
+    depends_on:
+      docker:
+        condition: service_healthy
+    environment:
+      CI_RUNNER: woodpecker
+    volumes:
+      - /etc/ci-runner/woodpecker:/etc/woodpecker
+```
 ### configure gitlab-runner
 See the general [Documentation](https://docs.gitlab.com/runner/register/) how to Register a runner.
 Prefix the given command with the container from docker-compose:
-```bash
+```shell
 wget -qO docker-compose.yml https://gitlab.rimkus.it/development/ci-runner/-/raw/main/docker-compose.yml?ref_type=heads
 docker-compose pull
 mkdir gitlab && touch gitlab/config.toml

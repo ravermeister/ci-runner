@@ -71,10 +71,10 @@ ENV CI_RUNNER="forgejo"
 WORKDIR /root
 
 HEALTHCHECK \
-  --interval=10s \
-  --timeout=5s \
-  --start-period=3s \
-  --retries=4 \
-  CMD ci-runner health
+    --interval=10s  \
+    --timeout=5s \
+    --start-period=3s \
+    --retries=4 \
+CMD ci-runner health
 
 ENTRYPOINT ["ci-runner", "run"]

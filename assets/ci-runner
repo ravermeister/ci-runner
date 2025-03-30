@@ -51,11 +51,11 @@ start_container() {
 			start_woodpecker "$@"
 		;;
 		"gitlab")
-			gitlab-runner "$@"
+			gitlab-runner "$@" 2>/dev/stderr >/dev/stdout &
 			echo "$?" >>/run/ci-runner.pid
 		;;
 		*)
-			forgejo-runner "$@"
+			forgejo-runner "$@" 2>/dev/stderr >/dev/stdout &
 			echo "$?" >>/run/ci-runner.pid
 		;;
 	esac

@@ -24,15 +24,18 @@ start_woodpecker() {
 
 	if [ -d "/etc/woodpecker" ]; then
 		while IFS= read -r -d '' file; do
+			set -o allexport
 			# shellcheck disable=SC1090
 			source "$file"
-			woodpecker-agent "$@" &
+			set +o allexport
+
+			woodpecker-agent "$@" 2>/dev/stderr >/dev/stdout &
 			echo "$?" >>/run/ci-runner.pid
 		done <   <(find "/etc/woodpecker" -type f -name '*.agent' -print0)
 	fi
 
 	if [ "$legacy_start" == "true" ]; then
-		woodpecker-agent "$@" &
+		woodpecker-agent "$@" 2>/dev/stderr >/dev/stdout &
 		echo "$?" >>/run/ci-runner.pid
 	fi
 }

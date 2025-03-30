@@ -1,30 +1,24 @@
 # Multiple CI Runner in Docker
-
-This Container includes multiple CI Runners and additional Tools.
+This Container includes multiple CI Runners.
 
 ## System Requirements
 - [amd64](https://hub.docker.com/repository/docker/ravermeister/ci-runner/tags?name=amd64) (images are based on [Debian:stable-slim](https://hub.docker.com/_/debian/tags?name=stable-slim))
 - [arm64](https://hub.docker.com/repository/docker/ravermeister/ci-runner/tags?name=arm64) (images are based on [arm64v8/debian:stable-slim](https://hub.docker.com/r/arm64v8/debian/tags?name=stable-slim))
 - Docker
 
-## Software included:
-See also the [versions.env](https://gitlab.rimkus.it/development/ci-runner/-/blob/main/.env/versions.env?ref_type=heads) for the Software.
-
-### Runner
-- [Forgejo Runner](https://code.forgejo.org/forgejo/runner/releases) in `/usr/local/bin/forgejo-runner`
-- [Woodpecker Runner](https://github.com/woodpecker-ci/woodpecker/releases) in `/usr/local/bin/woodpecker-agent`
-- [Gitlab Runner](https://gitlab.com/gitlab-org/gitlab-runner/-/releases) in `/usr/local/bin/gitlab-runner`
-
-### Tools
-- node
-- go
+## Software included
 - docker-ce-cli
 - docker-buildx
 - git
 - git-lfs
+See also the [versions.env](https://gitlab.rimkus.it/development/ci-runner/-/blob/main/.env/versions.env?ref_type=heads) for the Software.
+
+### Runner included
+- [Forgejo Runner](https://code.forgejo.org/forgejo/runner/releases) in `/usr/local/bin/forgejo-runner`
+- [Woodpecker Runner](https://github.com/woodpecker-ci/woodpecker/releases) in `/usr/local/bin/woodpecker-agent`
+- [Gitlab Runner](https://gitlab.com/gitlab-org/gitlab-runner/-/releases) in `/usr/local/bin/gitlab-runner`
 
 ## How to run
-
 Before starting, you have to configure a runner:
 
 ### configure forgejo-runner

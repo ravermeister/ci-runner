@@ -24,7 +24,6 @@ ADD --chmod=755 https://code.forgejo.org/forgejo/runner/releases/download/v${FOR
 ADD --chmod=755 https://gitlab-runner-downloads.s3.amazonaws.com/v${GITLAB_VERSION}/binaries/gitlab-runner-${GITLAB_ARCH} /usr/local/bin/gitlab-runner
 ADD --chmod=755 https://github.com/docker/buildx/releases/download/v${DOCKER_BUILDX_VERSION}/buildx-v${DOCKER_BUILDX_VERSION}.${DOCKER_BUILDX_ARCH} /root/.docker/cli-plugins/docker-buildx
 ADD https://github.com/woodpecker-ci/woodpecker/releases/download/v${WOODPECKER_VERSION}/woodpecker-agent_${WOODPECKER_ARCH}.tar.gz /tmp/tools/woodpecker-agent.tar.gz
-ADD https://go.dev/dl/go${GO_VERSION}.${GO_ARCH}.tar.gz /tmp/tools/go.tar.gz
 COPY --chmod=755 assets/ci-runner /usr/local/bin/
 
 SHELL ["/bin/sh", "-c"]
@@ -37,7 +36,7 @@ RUN set -eux; \
     && apt-get dist-upgrade -yq --no-install-recommends \
     # Install Dependencies
     && apt-get install -yq --no-install-recommends \
-        ca-certificates curl nodejs npm nano git less \
+        ca-certificates curl nano git less \
     # Add the Docker CE repository to Apt sources
     && install -m 0755 -d /etc/apt/keyrings \
     && curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc \
@@ -50,8 +49,7 @@ RUN set -eux; \
     && curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash \
     && apt-get update -q \
     # Install
-    ## Docker CE Client
-    ## git-lfs
+    ## Docker CE Client, git-lfs
     && apt-get install -yq --no-install-recommends \
         docker-ce-cli \
         docker-buildx-plugin  \
@@ -63,10 +61,10 @@ RUN set -eux; \
     # Remove MOTD
     && rm -rf /etc/update-motd.d /etc/motd /etc/motd.dynamic \
     && ln -fs /dev/null /run/motd.dynamic \
-    # install tools
-    && tar -C /usr/local/share -xzf /tmp/tools/go.tar.gz \
-    && find /usr/local/share/go/bin -type f -exec ln -s {} /usr/local/bin \; \
+    # install tools \
+    ## woodpecker agent
     && tar -C /usr/local/bin -xzf /tmp/tools/woodpecker-agent.tar.gz \
+    ## remove tools folder
     && rm -rf /tmp/tools
 
 ENV CI_RUNNER="forgejo"

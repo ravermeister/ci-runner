@@ -7,16 +7,17 @@ This Container includes multiple CI Runners.
 - Docker
 
 ## Software included
+### Runner/Agent
+- [Forgejo Runner](https://code.forgejo.org/forgejo/runner/releases) in `/usr/local/bin/forgejo-runner`
+- [Woodpecker Runner](https://github.com/woodpecker-ci/woodpecker/releases) in `/usr/local/bin/woodpecker-agent`
+- [Gitlab Runner](https://gitlab.com/gitlab-org/gitlab-runner/-/releases) in `/usr/local/bin/gitlab-runner`
+
+### tools
 - docker-ce-cli
 - docker-buildx
 - git
 - git-lfs
 See also the [versions.env](https://gitlab.rimkus.it/development/ci-runner/-/blob/main/.env/versions.env?ref_type=heads) for the Software.
-
-### Runner included
-- [Forgejo Runner](https://code.forgejo.org/forgejo/runner/releases) in `/usr/local/bin/forgejo-runner`
-- [Woodpecker Runner](https://github.com/woodpecker-ci/woodpecker/releases) in `/usr/local/bin/woodpecker-agent`
-- [Gitlab Runner](https://gitlab.com/gitlab-org/gitlab-runner/-/releases) in `/usr/local/bin/gitlab-runner`
 
 ## How to run
 Before starting, you have to configure a runner:

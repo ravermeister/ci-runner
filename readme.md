@@ -90,7 +90,7 @@ the [docker-compose](https://gitlab.rimkus.it/development/ci-runner/-/blob/main/
 you can verify this with the `ip a` command. You should see a new Network device called `ci-bridge-net`. 
 Now you can add an [IPTable rule](https://stackoverflow.com/a/45121429), to prohibit Access to the LAN.
 
-```bash
+```shell
 iptables -I FORWARD -i ci-bridge-net -d 192.168.0.0/16 -j DROP
 ip6tables -I FORWARD -i ci-bridge-net -d 2a02:8464:7240:a2b0::/64 -j DROP
 # persist the ip table rules

@@ -1,23 +1,22 @@
 #!/bin/bash
 
 ## health functions
-
 health_check() {
 
 	if [ ! -s /run/ci-runner.pid ]; then
 		exit 1
 	fi
 
-	while IFS= read -r pid
-  do
-    if ! ps -p "$pid" > /dev/null; then
-    	exit 1
-    fi
+	while IFS= read -r pid; do
+		if ! ps -p "$pid" > /dev/null; then
+			exit 1
+		fi
   done < <(grep -v '^ *#' /run/ci-runner.pid)
+
+  exit 0
 }
 
 ## start functions
-
 start_woodpecker() {
 
 	legacy_start="true"

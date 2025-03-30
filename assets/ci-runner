@@ -81,7 +81,7 @@ case $1 in
 	;;
 	health)
 		shift
-		check_health "$@"
+		health_check "$@"
 	;;
 	*)
 		usage

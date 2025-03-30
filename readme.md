@@ -65,6 +65,7 @@ mount the config Directory into `/etc/woodpecker` e.g.:
         condition: service_healthy
     environment:
       CI_RUNNER: woodpecker
+      DOCKER_HOST: tcp://docker:2375
     volumes:
       - /etc/ci-runner/woodpecker:/etc/woodpecker
 ```

@@ -62,6 +62,13 @@ start_container() {
 			echo "$!" >>/run/ci-runner.pid
 		;;
 	esac
+
+	while IFS= read -r pid; do
+		if ! ps -p "$pid" > /dev/null; then
+			exit 1
+		fi
+		wait "$pid"
+  done < <(grep -v '^ *#' /run/ci-runner.pid)
 }
 usage() {
 	BASE_NAME="$(basename "$0")"

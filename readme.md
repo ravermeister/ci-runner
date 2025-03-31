@@ -81,11 +81,11 @@ mkdir gitlab && touch gitlab/config.toml
 docker-compose run -it -v $(pwd)/gitlab:/etc/gitlab-runner --entrypoint gitlab-runner gitlab register
 ```
 
-## Remove Access to LAN for the Container
+## Deny Access to LAN for the Container
 To further harden the Isolation,
 the [docker-compose](https://gitlab.rimkus.it/development/ci-runner/-/blob/main/docker-compose.yml?ref_type=heads) File uses a separate bridge Network with a pre-defined name `ci-bridge-net`, 
 you can verify this with the `ip a` command. You should see a new Network device called `ci-bridge-net`. 
-Now you can add an [IPTable rule](https://stackoverflow.com/a/45121429), to prohibit Access to the LAN.
+Now you can add an [IPTable rule](https://stackoverflow.com/a/45121429), to deny Access to the LAN.
 
 ```shell
 iptables -I FORWARD -i ci-bridge-net -d 192.168.0.0/16 -j DROP

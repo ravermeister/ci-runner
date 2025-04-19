@@ -97,7 +97,7 @@ services:
     environment:
       CI_RUNNER: woodpecker
       DOCKER_HOST: tcp://docker:2375
-      WOODPECKER_SERVER: woodpecker-grpc.codeberg.org
+      WOODPECKER_SERVER: grpc.ci.codeberg.org
       WOODPECKER_AGENT_SECRET_FILE: /etc/woodpecker/codeberg.secret
       WOODPECKER_GRPC_SECURE: true
       WOODPECKER_HEALTHCHECK: false

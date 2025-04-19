@@ -46,7 +46,7 @@ create a config directory for woodpecker and add a file named `*.agent` for each
 Add the `WOODPECKER_*` Variables into the file
 ```
 WOODPECKER_AGENT_CONFIG_FILE=/etc/woodpecker/agent.conf
-WOODPECKER_SERVER=woodpecker-grpc.codeberg.org
+WOODPECKER_SERVER=grpc.ci.codeberg.org
 WOODPECKER_AGENT_SECRET=XXXXXXXXXXXXXXXXX
 WOODPECKER_GRPC_SECURE=true
 WOODPECKER_HEALTHCHECK=false

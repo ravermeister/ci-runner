@@ -25,6 +25,7 @@
       docker buildx build --no-cache --force-rm --compress --load \
         --platform "$DOCKER_PLATFORM" \
         --build-arg "DOCKER_BASE_IMAGE=$DOCKER_BASE_IMAGE" \
+        --build-arg "DOCKER_BUILDX_VERSION=$DOCKER_BUILDX_VERSION" \
         --build-arg "FORGEJO_VERSION=$FORGEJO_VERSION" \
         --build-arg "WOODPECKER_VERSION=$WOODPECKER_VERSION" \
         --build-arg "GITLAB_VERSION=$GITLAB_VERSION" \

@@ -48,6 +48,9 @@ start_woodpecker() {
 }
 
 start_container() {
+	# clean stale pid file
+	rm /run/ci-runner.pid >/dev/null 2>&1
+
 	case "$CI_RUNNER" in
 		"woodpecker")
 			start_woodpecker "$@"

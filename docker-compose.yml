@@ -44,6 +44,7 @@ services:
         condition: service_healthy
     environment:
       CI_RUNNER: gitlab
+      DOCKER_HOST: tcp://docker:2375
     command:
       - "run"
       - "--config"
@@ -69,6 +70,7 @@ services:
         condition: service_healthy
     environment:
       CI_RUNNER: forgejo
+      DOCKER_HOST: tcp://docker:2375
     command:
       - "-c"
       - "/etc/forgejo.yml"

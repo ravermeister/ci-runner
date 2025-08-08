@@ -22,7 +22,7 @@ ARG DOCKER_BUILDX_ARCH=linux-amd64
 # add packages
 ADD --chmod=755 https://code.forgejo.org/forgejo/runner/releases/download/v${FORGEJO_VERSION}/forgejo-runner-${FORGEJO_VERSION}-${FORGEJO_ARCH} /usr/local/bin/forgejo-runner
 ADD --chmod=755 https://gitlab-runner-downloads.s3.amazonaws.com/v${GITLAB_VERSION}/binaries/gitlab-runner-${GITLAB_ARCH} /usr/local/bin/gitlab-runner
-ADD --chmod=755 https://github.com/docker/buildx/releases/download/v${DOCKER_BUILDX_VERSION}/buildx-v${DOCKER_BUILDX_VERSION}.${DOCKER_BUILDX_ARCH} /root/.docker/cli-plugins/docker-buildx
+ADD --chmod=755 https://github.com/docker/buildx/releases/download/v${DOCKER_BUILDX_VERSION}/buildx-v${DOCKER_BUILDX_VERSION}.${DOCKER_BUILDX_ARCH} /usr/local/lib/docker/cli-plugins/docker-buildx
 ADD https://github.com/woodpecker-ci/woodpecker/releases/download/v${WOODPECKER_VERSION}/woodpecker-agent_${WOODPECKER_ARCH}.tar.gz /tmp/tools/woodpecker-agent.tar.gz
 COPY --chmod=755 assets/ci-runner /usr/local/bin/
 

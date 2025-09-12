@@ -22,7 +22,7 @@ services:
         "test -S /var/run/docker/docker.sock"
       ]
       interval: 5s
-      timeout: 5s
+      timeout: 30s
       retries: 5
     volumes:
       # if you need the docker.sock somewhere

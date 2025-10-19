@@ -21,9 +21,8 @@ services:
         "&&",
         "test -S /var/run/docker/docker.sock"
       ]
-      interval: 5s
-      timeout: 30s
-      retries: 5
+      interval: 10s
+      timeout: 120s
     volumes:
       # if you need the docker.sock somewhere
       - type: bind

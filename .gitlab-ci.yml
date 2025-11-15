@@ -10,7 +10,7 @@ variables:
   GPG_MAIL: ci-runner@example.net
   DOCKER_AUTH_CONFIG: |
     {
-      "credsStore": "pass"
+      "credStore": "pass"
     }
 
 include:

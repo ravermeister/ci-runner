@@ -37,6 +37,7 @@ RUN set -eux; \
     # Install Dependencies
     && apt-get install -yq --no-install-recommends \
         ca-certificates curl nano git less procps \
+        python3 python3-pip python3-setuptools python3-venv libudev-dev \
     # Add the Docker CE repository to Apt sources
     && install -m 0755 -d /etc/apt/keyrings \
     && curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc \
@@ -61,8 +62,9 @@ RUN set -eux; \
     # Remove MOTD
     && rm -rf /etc/update-motd.d /etc/motd /etc/motd.dynamic \
     && ln -fs /dev/null /run/motd.dynamic \
-    # install tools \
-    ## woodpecker agent
+    # Installiert ESPHome global im System für arm64 + amd64
+    && pip3 install --no-cache-dir --break-system-packages esphome \
+    # install tools woodpecker agent
     && tar -C /usr/local/bin -xzf /tmp/tools/woodpecker-agent.tar.gz \
     ## remove tools folder
     && rm -rf /tmp/tools
@@ -77,4 +79,5 @@ HEALTHCHECK \
     --retries=4 \
 CMD ci-runner health
 
+EXPOSE 6052
 ENTRYPOINT ["ci-runner", "run"]

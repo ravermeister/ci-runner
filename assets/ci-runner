@@ -47,23 +47,36 @@ start_woodpecker() {
 	fi
 }
 
+start_esp_home_builder() {
+	if ! [ -d "/etc/esp_home" ]; then
+		mkdir -p "/etc/esp_home"
+	fi
+
+	# Startet den ESPHome Remote Builder im Hintergrund
+	esphome-device-builder /etc/esp_home --remote-build-only >/dev/stdout 2>/dev/stderr &
+	echo "$!" >>/run/ci-runner.pid
+}
+
 start_container() {
 	# clean stale pid file
 	rm /run/ci-runner.pid >/dev/null 2>&1
 
 	case "$CI_RUNNER" in
-		"woodpecker")
-			start_woodpecker "$@"
-		;;
 		"gitlab")
 			gitlab-runner "$@" \
 				>/dev/stdout 2>/dev/stderr &
 			echo "$!" >>/run/ci-runner.pid
 		;;
-		*)
+		"esp_home")
+			start_esp_home_builder "$@"
+		;;
+		"fogejo_runner")
 			forgejo-runner "$@" \
 				>/dev/stdout 2>/dev/stderr &
 			echo "$!" >>/run/ci-runner.pid
+		;;
+		"woodpecker" | *)
+			start_woodpecker "$@"
 		;;
 	esac
 
@@ -76,7 +89,7 @@ start_container() {
 }
 usage() {
 	BASE_NAME="$(basename "$0")"
-	printf "%s\t%s\t%s\n" "${BASE_NAME}" "run" "starts the [forgejo-runner|woodpecker-agent|gitlab-runner]"
+	printf "%s\t%s\t%s\n" "${BASE_NAME}" "run" "starts the [forgejo|woodpecker|gitlab|esp_home] service"
 }
 
 ###########

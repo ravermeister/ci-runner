@@ -109,6 +109,19 @@ services:
     volumes:
       - /etc/ci-runner/woodpecker:/etc/woodpecker
       - /media/usb/ci-runner/woodpecker/tmp:/root/woodpecker/tmp
+  esphome-builder:
+    image: gitlab.rimkus.it/development/ci-runner:latest
+    container_name: esphome-builder
+    restart: always
+    network_mode: host # allow Home Assistant automatic detection in LAN
+#    networks:
+#      - ci-bridge-net
+    environment:
+      - CI_RUNNER=esp_home
+      - TZ=Europe/Berlin
+    volumes:
+      - /media/usb/ci-runner/esp_home:/etc/esp_home # Sichert den Compiler-Cache auf dem Server
+
 networks:
   ci-bridge-net:
     driver: bridge

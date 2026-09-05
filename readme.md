@@ -11,6 +11,7 @@ This Container includes multiple CI Runners.
 - [Forgejo Runner](https://code.forgejo.org/forgejo/runner/releases) in `/usr/local/bin/forgejo-runner`
 - [Woodpecker Agent](https://github.com/woodpecker-ci/woodpecker/releases) in `/usr/local/bin/woodpecker-agent`
 - [Gitlab Runner](https://gitlab.com/gitlab-org/gitlab-runner/-/releases) in `/usr/local/bin/gitlab-runner`
+- [ESP Home Device Builder](https://github.com/esphome/device-builder) [installed in container](https://gitlab.rimkus.it/development/ci-runner/-/blob/main/Dockerfile?ref_type=heads#L66) via `pip3 install --no-cache-dir --break-system-packages esphome`
 
 ### tools
 - docker-ce-cli

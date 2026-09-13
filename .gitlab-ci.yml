@@ -8,16 +8,6 @@ variables:
   GIT_SUBMODULE_STRATEGY: recursive  
   GPG_USER: ci-runner
   GPG_MAIL: ci-runner@example.net
-  DOCKER_AUTH_CONFIG: '
-    {
-      "credHelpers": {
-        "gitlab.rimkus.it": "pass",
-        "docker.io": "pass",
-        "index.docker.io": "pass"
-      }
-    }
-  '
-
 
 include:
   - local: .gitlab/.gitlab-ci.tpl.yml

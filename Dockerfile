@@ -63,7 +63,7 @@ RUN set -eux; \
     && rm -rf /etc/update-motd.d /etc/motd /etc/motd.dynamic \
     && ln -fs /dev/null /run/motd.dynamic \
     # Installiert ESPHome global im System für arm64 + amd64
-    && pip3 install --no-cache-dir --break-system-packages esphome \
+    && pip3 install --no-cache-dir --break-system-packages --ignore-installed esphome \
     # install tools woodpecker agent
     && tar -C /usr/local/bin -xzf /tmp/tools/woodpecker-agent.tar.gz \
     ## remove tools folder

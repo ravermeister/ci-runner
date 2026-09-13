@@ -72,7 +72,7 @@
       printf " %s: %s\n" "WOODPECKER_ARCH" "$WOODPECKER_ARCH"
       printf " %s: %s\n" "GITLAB_ARCH" "$GITLAB_ARCH"
 
-    - apk add --no-cache make bash curl libsecret pass gpg-agent openssh-client
+    - apk add --no-cache make bash curl
     - mkdir -p ~/.docker/cli-plugins
     - |
       curl -sSLo ~/.docker/cli-plugins/docker-buildx \

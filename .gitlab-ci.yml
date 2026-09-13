@@ -6,10 +6,7 @@ variables:
   DOCKER_BUILD_IMAGE_TAG_AMD64: amd64
   CI_REGISTRY_BUILD_IMAGE_NAME: ravermeister/${DOCKER_BUILD_IMAGE_NAME}
   DOCKER_LEGACY_KEY_FILE_WARNING: 0
-  GIT_SUBMODULE_STRATEGY: recursive  
-  GPG_USER: ci-runner
-  GPG_MAIL: ci-runner@example.net
-
+  GIT_SUBMODULE_STRATEGY: recursive
 include:
   - local: .gitlab/.gitlab-ci.tpl.yml
 

@@ -80,7 +80,7 @@
     - chmod +x ~/.docker/cli-plugins/docker-buildx
     - mkdir -p /usr/local/bin
     - |
-    - echo "${CI_REGISTRY_PASSWORD}" | awk '{print $0}' | docker login --username "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
+    - echo "${CI_REGISTRY_PASSWORD}" | awk '{print $0}' | docker login --username "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}" 2>/dev/null
     - docker context create tls-environment >/dev/null
     - docker buildx create --use tls-environment >/dev/null    
 

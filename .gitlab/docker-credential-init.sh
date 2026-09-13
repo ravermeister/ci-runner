@@ -4,7 +4,7 @@ GPG_USER=
 GPG_EMAIL=
 GPG_DESC=
 
-gen_gpg_key() {
+start_gpg_connect() {
   rm -rf "${HOME}/.gnupg"
   mkdir -m 0700 "${HOME}/.gnupg"
   touch "${HOME}/.gnupg/gpg.conf"
@@ -13,6 +13,15 @@ gen_gpg_key() {
     tail -n +4 /usr/share/gnupg2/gpg-conf.skel > "${HOME}/.gnupg/gpg.conf"
   fi
 
+  ## configuration for gpg in silent mode
+  echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
+  echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
+
+  # GPG-Agent im Hintergrund starten, falls das Init-Skript es nicht tut
+  gpg-connect-agent reloadagent /bye
+}
+
+gen_gpg_key() {
   cd "${HOME}/.gnupg" || exit 1
   # I removed this line since these are created if a list key is done.
   # touch ${HOME}/.gnupg/{pub,sec}ring.gpg
@@ -58,7 +67,8 @@ EOF
 }
 
 pass_init() {
-  gpg_key_fingerprint=$(gpg2 -k "$GPG_EMAIL" | head -n2 | tail -n1 | tr -d " ")  
+  #gpg_key_fingerprint=$(gpg2 -k "$GPG_EMAIL" | head -n2 | tail -n1 | tr -d " ")
+  gpg_key_fingerprint=$(gpg2 --with-colons --fingerprint "$GPG_EMAIL" | awk -F: '/fpr/ {print $10; exit}')
   pass init "$gpg_key_fingerprint"
 }
 
@@ -78,8 +88,9 @@ if [[ -z "${GPG_USER}" || -z "${GPG_EMAIL}" ]]; then
 fi
 
 if [ -z "${GPG_DESC}" ]; then
-  GPG_DESC="generated at $(date '+%Y-%m-%d %H:%I:%S')"
+  GPG_DESC="generated at $(date '+%Y-%m-%d %H:%M:%S')"
 fi
 
+start_gpg_connect
 gen_gpg_key
 pass_init
